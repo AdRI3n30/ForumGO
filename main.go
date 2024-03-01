@@ -4,8 +4,10 @@ import (
 	"database/sql"
 	"fmt"
 	"html/template"
+	"io"
 	"log"
 	"net/http"
+	"os"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/sessions"
@@ -67,7 +69,7 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 func registerHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		// Afficher le formulaire d'inscription s'il s'agit d'une requête GET
-		tmpl := template.Must(template.ParseFiles("register.html")) // Assurez-vous d'avoir un fichier register.html avec le formulaire d'inscription
+		tmpl := template.Must(template.ParseFiles("register.html"))
 		tmpl.Execute(w, nil)
 		return
 	}
@@ -79,8 +81,26 @@ func registerHandler(w http.ResponseWriter, r *http.Request) {
 	email := r.FormValue("email")
 	motDePasse := r.FormValue("mot_de_passe")
 
-	// Insérer les données dans la base de données avec le mot de passe en texte brut
-	_, err := db.Exec("INSERT INTO utilisateurs (nom, prenom, pseudo, email, mot_de_passe) VALUES (?, ?, ?, ?, ?)", nom, prenom, pseudo, email, motDePasse)
+	// Récupérer le fichier image téléversé
+	file, handler, err := r.FormFile("image_profil")
+	if err != nil {
+		http.Error(w, "Erreur lors du téléversement de l'image", http.StatusInternalServerError)
+		return
+	}
+	defer file.Close()
+
+	// Enregistrer le fichier sur le serveur
+	chemin := "/image" + handler.Filename
+	fichier, err := os.Create(chemin)
+	if err != nil {
+		http.Error(w, "Erreur lors de la création du fichier", http.StatusInternalServerError)
+		return
+	}
+	defer fichier.Close()
+	io.Copy(fichier, file)
+
+	// Insérer les données dans la base de données avec le chemin de l'image
+	_, err = db.Exec("INSERT INTO utilisateurs (nom, prenom, pseudo, email, mot_de_passe, image_profil) VALUES (?, ?, ?, ?, ?, ?)", nom, prenom, pseudo, email, motDePasse, chemin)
 	if err != nil {
 		http.Error(w, "Erreur lors de l'inscription de l'utilisateur", http.StatusInternalServerError)
 		return
