@@ -13,7 +13,7 @@ import (
 
 var (
 	db          *sql.DB
-	store       = sessions.NewCookieStore([]byte("your-secret-key")) // Changez la clé secrète
+	store       = sessions.NewCookieStore([]byte("Shin2")) // Changez la clé secrète
 	sessionName = "session-name"
 )
 
@@ -26,9 +26,17 @@ func main() {
 	http.HandleFunc("/register", registerHandler)
 	http.HandleFunc("/login", loginHandler)
 	http.HandleFunc("/logout", logoutHandler)
+	http.HandleFunc("/profil", profilHandler)
 
 	log.Println("Server is running on port 8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
+}
+
+type Utilisateur struct {
+	Nom    string
+	Prenom string
+	Pseudo string
+	Email  string
 }
 
 func initDB() {
@@ -134,4 +142,32 @@ func logoutHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Rediriger l'utilisateur vers la page de connexion
 	http.Redirect(w, r, "/login", http.StatusSeeOther)
+}
+
+func profilHandler(w http.ResponseWriter, r *http.Request) {
+	// Récupérer les informations de l'utilisateur depuis la session
+	session, err := store.Get(r, sessionName)
+	if err != nil {
+		http.Error(w, "Erreur de session", http.StatusInternalServerError)
+		return
+	}
+
+	pseudo, ok := session.Values["pseudo"].(string)
+	if !ok {
+		http.Error(w, "Utilisateur non connecté", http.StatusUnauthorized)
+		return
+	}
+
+	// Récupérer les informations de l'utilisateur depuis la base de données
+	var utilisateur Utilisateur
+	err = db.QueryRow("SELECT  nom, prenom, email, pseudo  FROM utilisateurs WHERE pseudo = ?", pseudo).Scan(&utilisateur.Nom, &utilisateur.Prenom, &utilisateur.Pseudo, &utilisateur.Email)
+	if err != nil {
+		fmt.Println(err)
+		http.Error(w, "Erreur lors de la récupération des informations de l'utilisateur", http.StatusInternalServerError)
+		return
+	}
+
+	// Afficher les informations de l'utilisateur sur la page HTML du profil
+	tmpl := template.Must(template.ParseFiles("profil.html"))
+	tmpl.Execute(w, utilisateur)
 }
