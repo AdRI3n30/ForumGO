@@ -4,10 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 	"html/template"
-	"io"
 	"log"
 	"net/http"
-	"os"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/sessions"
@@ -24,11 +22,13 @@ func main() {
 	initDB()
 	defer db.Close()
 
-	http.HandleFunc("/", homeHandler)
+	http.HandleFunc("/", forumHandler)
 	http.HandleFunc("/register", registerHandler)
 	http.HandleFunc("/login", loginHandler)
 	http.HandleFunc("/logout", logoutHandler)
 	http.HandleFunc("/profil", profilHandler)
+	http.HandleFunc("/create-topic", createTopicHandler)
+	http.HandleFunc("/topic", topicHandler)
 
 	log.Println("Server is running on port 8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
@@ -40,6 +40,19 @@ type Utilisateur struct {
 	Pseudo       string
 	Email        string
 	Image_profil sql.NullString
+}
+
+type Sujet struct {
+	ID      int
+	Titre   string
+	Contenu string
+	Auteur  string
+}
+
+type Message struct {
+	ID      int
+	Contenu string
+	Auteur  string
 }
 
 func initDB() {
@@ -55,22 +68,28 @@ func initDB() {
 	}
 }
 
-func homeHandler(w http.ResponseWriter, r *http.Request) {
+func forumHandler(w http.ResponseWriter, r *http.Request) {
 	session, _ := store.Get(r, sessionName)
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, r, "/login", http.StatusSeeOther)
 		return
 	}
+	// Récupérer tous les sujets du forum depuis la base de données
+	sujets, err := getSujetsFromDB()
+	if err != nil {
+		http.Error(w, "Erreur lors de la récupération des sujets du forum", http.StatusInternalServerError)
+		return
+	}
 
-	// L'utilisateur est connecté, affichez la page d'accueil
-	tmpl := template.Must(template.ParseFiles("home.html")) // Assurez-vous d'avoir un fichier home.html avec votre contenu d'accueil
-	tmpl.Execute(w, nil)
+	// Afficher la liste des sujets sur la page HTML du forum
+	tmpl := template.Must(template.ParseFiles("forum.html"))
+	tmpl.Execute(w, sujets)
 }
 
 func registerHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		// Afficher le formulaire d'inscription s'il s'agit d'une requête GET
-		tmpl := template.Must(template.ParseFiles("register.html"))
+		tmpl := template.Must(template.ParseFiles("register.html")) // Assurez-vous d'avoir un fichier register.html avec le formulaire d'inscription
 		tmpl.Execute(w, nil)
 		return
 	}
@@ -82,26 +101,8 @@ func registerHandler(w http.ResponseWriter, r *http.Request) {
 	email := r.FormValue("email")
 	motDePasse := r.FormValue("mot_de_passe")
 
-	// Récupérer le fichier image téléversé
-	file, handler, err := r.FormFile("image_profil")
-	if err != nil {
-		http.Error(w, "Erreur lors du téléversement de l'image", http.StatusInternalServerError)
-		return
-	}
-	defer file.Close()
-
-	// Enregistrer le fichier sur le serveur
-	chemin := "image/image_de_profil" + handler.Filename
-	fichier, err := os.Create(chemin)
-	if err != nil {
-		http.Error(w, "Erreur lors de la création du fichier", http.StatusInternalServerError)
-		return
-	}
-	defer fichier.Close()
-	io.Copy(fichier, file)
-
-	// Insérer les données dans la base de données avec le chemin de l'image
-	_, err = db.Exec("INSERT INTO utilisateurs (nom, prenom, pseudo, email, mot_de_passe, image_profil) VALUES (?, ?, ?, ?, ?, ?)", nom, prenom, pseudo, email, motDePasse, chemin)
+	// Insérer les données dans la base de données avec le mot de passe en texte brut
+	_, err := db.Exec("INSERT INTO utilisateurs (nom, prenom, pseudo, email, mot_de_passe) VALUES (?, ?, ?, ?, ?)", nom, prenom, pseudo, email, motDePasse)
 	if err != nil {
 		http.Error(w, "Erreur lors de l'inscription de l'utilisateur", http.StatusInternalServerError)
 		return
@@ -181,7 +182,7 @@ func profilHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Récupérer les informations de l'utilisateur depuis la base de données
 	var utilisateur Utilisateur
-	err = db.QueryRow("SELECT  nom, prenom, email, pseudo, image_profil  FROM utilisateurs WHERE pseudo = ?", pseudo).Scan(&utilisateur.Nom, &utilisateur.Prenom, &utilisateur.Pseudo, &utilisateur.Email, &utilisateur.Image_profil)
+	err = db.QueryRow("SELECT nom, prenom, email, pseudo, image_profil FROM utilisateurs WHERE pseudo = ?", pseudo).Scan(&utilisateur.Nom, &utilisateur.Prenom, &utilisateur.Pseudo, &utilisateur.Email, &utilisateur.Image_profil)
 	if err != nil {
 		fmt.Println(err)
 		http.Error(w, "Erreur lors de la récupération des informations de l'utilisateur", http.StatusInternalServerError)
@@ -191,4 +192,149 @@ func profilHandler(w http.ResponseWriter, r *http.Request) {
 	// Afficher les informations de l'utilisateur sur la page HTML du profil
 	tmpl := template.Must(template.ParseFiles("profil.html"))
 	tmpl.Execute(w, utilisateur)
+}
+
+func getSujetsFromDB() ([]Sujet, error) {
+	// Récupérer tous les sujets du forum depuis la base de données
+	rows, err := db.Query("SELECT id, titre, auteur FROM sujets")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	// Créer une slice pour stocker les sujets
+	var sujets []Sujet
+
+	// Parcourir les résultats de la requête et ajouter les sujets à la slice
+	for rows.Next() {
+		var sujet Sujet
+		err := rows.Scan(&sujet.ID, &sujet.Titre, &sujet.Auteur)
+		if err != nil {
+			return nil, err
+		}
+		sujets = append(sujets, sujet)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return sujets, nil
+}
+
+func createTopicHandler(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		http.Error(w, "Error parsing form", http.StatusInternalServerError)
+		return
+	}
+
+	titre := r.Form.Get("title")
+	contenu := r.Form.Get("content")
+
+	// Récupérer le pseudo de l'utilisateur depuis la session
+	session, err := store.Get(r, sessionName)
+	if err != nil {
+		http.Error(w, "Erreur de session", http.StatusInternalServerError)
+		return
+	}
+	pseudo, ok := session.Values["pseudo"].(string)
+	if !ok {
+		http.Error(w, "Utilisateur non connecté", http.StatusUnauthorized)
+		return
+	}
+
+	// Insérer le nouveau sujet dans la base de données avec le pseudo de l'utilisateur comme auteur
+	_, err = db.Exec("INSERT INTO sujets (titre, contenu, auteur) VALUES (?, ?, ?)", titre, contenu, pseudo)
+	if err != nil {
+		http.Error(w, "Error creating topic", http.StatusInternalServerError)
+		return
+	}
+
+	// Rediriger l'utilisateur vers la page d'accueil après création du sujet
+	http.Redirect(w, r, "/", http.StatusSeeOther)
+}
+
+func topicHandler(w http.ResponseWriter, r *http.Request) {
+	// Récupérer l'identifiant du sujet à partir des paramètres de requête
+	topicID := r.URL.Query().Get("id")
+
+	// Récupérer les détails du sujet depuis la base de données
+	var sujet Sujet
+	err := db.QueryRow("SELECT titre, contenu, auteur FROM sujets WHERE id = ?", topicID).Scan(&sujet.Titre, &sujet.Contenu, &sujet.Auteur)
+	if err != nil {
+		http.Error(w, "Erreur lors de la récupération des détails du sujet", http.StatusInternalServerError)
+		return
+	}
+
+	// Récupérer tous les commentaires associés à ce sujet depuis la base de données
+	commentaires, err := getCommentairesFromDB(topicID)
+	if err != nil {
+		http.Error(w, "Erreur lors de la récupération des commentaires", http.StatusInternalServerError)
+		return
+	}
+
+	// Afficher les détails du sujet et les commentaires associés sur la page HTML du sujet
+	tmpl := template.Must(template.ParseFiles("topic.html"))
+	data := struct {
+		Sujet        Sujet
+		Commentaires []Message
+	}{
+		Sujet:        sujet,
+		Commentaires: commentaires,
+	}
+	tmpl.Execute(w, data)
+}
+func getCommentairesFromDB(topicID string) ([]Message, error) {
+	// Récupérer tous les commentaires associés à ce sujet depuis la base de données
+	rows, err := db.Query("SELECT id, contenu, auteur FROM commentaires WHERE sujet_id = ?", topicID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	// Créer une slice pour stocker les commentaires
+	var commentaires []Message
+
+	// Parcourir les résultats de la requête et ajouter les commentaires à la slice
+	for rows.Next() {
+		var commentaire Message
+		err := rows.Scan(&commentaire.ID, &commentaire.Contenu, &commentaire.Auteur)
+		if err != nil {
+			return nil, err
+		}
+		commentaires = append(commentaires, commentaire)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return commentaires, nil
+}
+
+func addCommentaireHandler(w http.ResponseWriter, r *http.Request) {
+	// Récupérer les données du formulaire de commentaire
+	contenu := r.FormValue("contenu")
+	sujetID := r.FormValue("sujet_id") // Ajouté un champ caché dans le formulaire pour stocker l'ID du sujet
+
+	// Récupérer le pseudo de l'utilisateur depuis la session
+	session, err := store.Get(r, sessionName)
+	if err != nil {
+		http.Error(w, "Erreur de session", http.StatusInternalServerError)
+		return
+	}
+	pseudo, ok := session.Values["pseudo"].(string)
+	if !ok {
+		http.Error(w, "Utilisateur non connecté", http.StatusUnauthorized)
+		return
+	}
+
+	// Insérer le nouveau commentaire dans la base de données avec le pseudo de l'utilisateur comme auteur
+	_, err = db.Exec("INSERT INTO messages (contenu, auteur, sujet_id) VALUES (?, ?, ?)", contenu, pseudo, sujetID)
+	if err != nil {
+		http.Error(w, "Erreur lors de l'ajout du commentaire", http.StatusInternalServerError)
+		return
+	}
+
+	// Rediriger l'utilisateur vers la page du sujet après l'ajout du commentaire
+	http.Redirect(w, r, "/topic?id="+sujetID, http.StatusSeeOther)
 }

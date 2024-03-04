@@ -11,5 +11,9 @@
     <p>Prénom: {{.Prenom}}</p>
     <p>Email: {{.Email}}</p>
     <img src="/images/{{.Image_profil}}" alt="Image de profil">
+    
+    <form action="/logout" method="post">
+        <button type="submit">Se déconnecter</button>
+    </form>
 </body>
 </html>

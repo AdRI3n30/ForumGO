@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum</title>
+</head>
+<body>
+    <a href="/profil">Profil</a>
+    <h1>Forum</h1>
+    
+    <!-- Formulaire de création de sujet -->
+    <form action="/create-topic" method="POST">
+        <label for="title">Titre du sujet :</label><br>
+        <input type="text" id="title" name="title" required><br>
+        <label for="content">Contenu :</label><br>
+        <textarea id="content" name="content" rows="4" cols="50" required></textarea><br>
+        <button type="submit">Créer le sujet</button>
+    </form>
+
+    <!-- Liste des sujets existants -->
+    <ul>
+        {{range .}}
+        <li><a href="/topic?id={{.ID}}">{{.Titre}}</a> par {{.Auteur}}</li>
+        {{end}}
+    </ul>
+</body>
+</html>
