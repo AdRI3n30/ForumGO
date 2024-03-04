@@ -35,10 +35,11 @@ func main() {
 }
 
 type Utilisateur struct {
-	Nom    string
-	Prenom string
-	Pseudo string
-	Email  string
+	Nom          string
+	Prenom       string
+	Pseudo       string
+	Email        string
+	Image_profil sql.NullString
 }
 
 func initDB() {
@@ -90,7 +91,7 @@ func registerHandler(w http.ResponseWriter, r *http.Request) {
 	defer file.Close()
 
 	// Enregistrer le fichier sur le serveur
-	chemin := "/image" + handler.Filename
+	chemin := "image/image_de_profil" + handler.Filename
 	fichier, err := os.Create(chemin)
 	if err != nil {
 		http.Error(w, "Erreur lors de la création du fichier", http.StatusInternalServerError)
@@ -180,7 +181,7 @@ func profilHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Récupérer les informations de l'utilisateur depuis la base de données
 	var utilisateur Utilisateur
-	err = db.QueryRow("SELECT  nom, prenom, email, pseudo  FROM utilisateurs WHERE pseudo = ?", pseudo).Scan(&utilisateur.Nom, &utilisateur.Prenom, &utilisateur.Pseudo, &utilisateur.Email)
+	err = db.QueryRow("SELECT  nom, prenom, email, pseudo, image_profil  FROM utilisateurs WHERE pseudo = ?", pseudo).Scan(&utilisateur.Nom, &utilisateur.Prenom, &utilisateur.Pseudo, &utilisateur.Email, &utilisateur.Image_profil)
 	if err != nil {
 		fmt.Println(err)
 		http.Error(w, "Erreur lors de la récupération des informations de l'utilisateur", http.StatusInternalServerError)
