@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Topic</title>
 </head>
 <body>
-    <h1>{{ .Titre }}</h1>
-    <p>{{ .Contenu }}</p>
+    <h1>{{ .Sujet.Titre }}</h1>
+    <p>{{ .Sujet.Contenu }}</p>
 
     <h2>Commentaires</h2>
     <ul>
@@ -17,10 +17,11 @@
     </ul>
 
     <h2>Ajouter un commentaire</h2>
-    <form action="/add-comment" method="post">
-        <label for="comment">Commentaire :</label><br>
-        <textarea id="comment" name="comment" rows="4" cols="50"></textarea><br>
-        <input type="submit" value="Ajouter">
+    <form action="/add-comment" method="POST">
+        <input type="hidden" name="sujet_id" value="{{.Sujet.ID}}">
+        <label for="contenu">Votre commentaire :</label><br>
+        <textarea id="contenu" name="contenu" rows="4" cols="50" required></textarea><br>
+        <button type="submit">Ajouter le commentaire</button>
     </form>
 </body>
 </html>

@@ -29,6 +29,7 @@ func main() {
 	http.HandleFunc("/profil", profilHandler)
 	http.HandleFunc("/create-topic", createTopicHandler)
 	http.HandleFunc("/topic", topicHandler)
+	http.HandleFunc("/add-comment", addCommentHandler)
 
 	log.Println("Server is running on port 8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
@@ -257,14 +258,18 @@ func createTopicHandler(w http.ResponseWriter, r *http.Request) {
 func topicHandler(w http.ResponseWriter, r *http.Request) {
 	// Récupérer l'identifiant du sujet à partir des paramètres de requête
 	topicID := r.URL.Query().Get("id")
+	fmt.Println(topicID)
 
 	// Récupérer les détails du sujet depuis la base de données
 	var sujet Sujet
-	err := db.QueryRow("SELECT titre, contenu, auteur FROM sujets WHERE id = ?", topicID).Scan(&sujet.Titre, &sujet.Contenu, &sujet.Auteur)
+	err := db.QueryRow("SELECT titre, contenu, auteur, id FROM sujets WHERE id = ?", topicID).Scan(&sujet.Titre, &sujet.Contenu, &sujet.Auteur, &sujet.ID)
 	if err != nil {
 		http.Error(w, "Erreur lors de la récupération des détails du sujet", http.StatusInternalServerError)
 		return
 	}
+
+	// Log des détails du sujet récupérés depuis la base de données
+	log.Printf("Détails du sujet: %v", sujet)
 
 	// Récupérer tous les commentaires associés à ce sujet depuis la base de données
 	commentaires, err := getCommentairesFromDB(topicID)
@@ -282,11 +287,15 @@ func topicHandler(w http.ResponseWriter, r *http.Request) {
 		Sujet:        sujet,
 		Commentaires: commentaires,
 	}
-	tmpl.Execute(w, data)
+	err = tmpl.Execute(w, data)
+	if err != nil {
+		http.Error(w, "Erreur lors de l'affichage de la page du sujet", http.StatusInternalServerError)
+		return
+	}
 }
 func getCommentairesFromDB(topicID string) ([]Message, error) {
 	// Récupérer tous les commentaires associés à ce sujet depuis la base de données
-	rows, err := db.Query("SELECT id, contenu, auteur FROM commentaires WHERE sujet_id = ?", topicID)
+	rows, err := db.Query("SELECT id, contenu, auteur FROM messages WHERE sujet_id = ?", topicID)
 	if err != nil {
 		return nil, err
 	}
@@ -311,10 +320,15 @@ func getCommentairesFromDB(topicID string) ([]Message, error) {
 	return commentaires, nil
 }
 
-func addCommentaireHandler(w http.ResponseWriter, r *http.Request) {
+func addCommentHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
 	// Récupérer les données du formulaire de commentaire
 	contenu := r.FormValue("contenu")
-	sujetID := r.FormValue("sujet_id") // Ajouté un champ caché dans le formulaire pour stocker l'ID du sujet
+	sujetID := r.FormValue("sujet_id") // Récupérer l'ID du sujet depuis le formulaire
 
 	// Récupérer le pseudo de l'utilisateur depuis la session
 	session, err := store.Get(r, sessionName)
