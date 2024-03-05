@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/TheWitcher3.css">
+    <title>Forum</title>
+</head>
+<body>
+    <div class="rectangle_menu">
+        <div class="TheForum">
+            <h1>The Forum</h1>
+        </div>
+        <img class="logo_witcher" src="../../Assets/Logo witcher.png" alt="logo witcher">
+
+
+        <button class="menu-button topics-button" onclick="toggleMenu('topicsMenu', 'topics-triangle', 'topicsText')">
+            Topics
+            <div class="triangle topics-triangle"></div>
+        </button>
+        <div class="hidden-menu topics-menu" id="topicsMenu"></div>
+        <div class="topics-text" id="topicsText">
+            <h1>Topics - The Witcher 3</h1>
+            {{range .}}
+                <li><a href="/topic?id={{.ID}}">{{.Titre}}</a> par {{.Auteur}}</li>
+            {{end}}
+        </div>
+
+
+        <button class="menu-button jeux-button" onclick="toggleMenu('JeuxMenu', 'jeux-triangle', 'JeuxText')">
+            Jeux
+            <div class="triangle jeux-triangle"></div>
+        </button>
+        <div class="hidden-menu jeux-menu" id="JeuxMenu"></div>
+        <div class="Jeux-text" id="JeuxText">
+            <h1>Jeux</h1>
+        </div>
+
+        <button class="menu-button a-propos" onclick="window.location.href='../générale/a_propos.html'">
+            A propos
+        </button>
+        
+        <button class="menu-button contact" onclick="window.location.href='../générale/contact.html'">
+            Contact
+        </button>        
+
+    </div>
+    <script src="/js/TheWitcher3.js"></script>
+</body>
+</html>

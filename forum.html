@@ -7,6 +7,7 @@
 </head>
 <body>
     <a href="/profil">Profil</a>
+    <a href="/thewitcher">witcher</a>
     <h1>Forum</h1>
     
     <!-- Formulaire de création de sujet -->
@@ -16,6 +17,12 @@
         <label for="content">Contenu :</label><br>
         <textarea id="content" name="content" rows="4" cols="50" required></textarea><br>
         <button type="submit">Créer le sujet</button>
+        <label for="nomDuJeux">Jeu :</label><br>
+        <select id="nomDuJeux" name="nomDuJeux">
+        <option value="Zelda">Zelda</option>
+        <option value="Final Fantasy">Final Fantasy</option>
+        <option value="The witcher">The witcher</option>
+        </select><br>
     </form>
 
     <!-- Liste des sujets existants -->

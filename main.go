@@ -30,7 +30,10 @@ func main() {
 	http.HandleFunc("/create-topic", createTopicHandler)
 	http.HandleFunc("/topic", topicHandler)
 	http.HandleFunc("/add-comment", addCommentHandler)
-
+	http.HandleFunc("/thewitcher", thewitcher)
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+	http.Handle("/Assets/", http.StripPrefix("/Assets/", http.FileServer(http.Dir("Assets"))))
+	http.Handle("/js/", http.StripPrefix("/js/", http.FileServer(http.Dir("js"))))
 	log.Println("Server is running on port 8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
@@ -44,10 +47,11 @@ type Utilisateur struct {
 }
 
 type Sujet struct {
-	ID      int
-	Titre   string
-	Contenu string
-	Auteur  string
+	ID        int
+	Titre     string
+	Contenu   string
+	Auteur    string
+	nomDuJeux string
 }
 
 type Message struct {
@@ -231,6 +235,7 @@ func createTopicHandler(w http.ResponseWriter, r *http.Request) {
 
 	titre := r.Form.Get("title")
 	contenu := r.Form.Get("content")
+	nomDuJeux := r.FormValue("nomDuJeux")
 
 	// Récupérer le pseudo de l'utilisateur depuis la session
 	session, err := store.Get(r, sessionName)
@@ -245,7 +250,7 @@ func createTopicHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Insérer le nouveau sujet dans la base de données avec le pseudo de l'utilisateur comme auteur
-	_, err = db.Exec("INSERT INTO sujets (titre, contenu, auteur) VALUES (?, ?, ?)", titre, contenu, pseudo)
+	_, err = db.Exec("INSERT INTO sujets (titre, contenu, auteur,nomDuJeux) VALUES (?, ?, ?, ?)", titre, contenu, pseudo, nomDuJeux)
 	if err != nil {
 		http.Error(w, "Error creating topic", http.StatusInternalServerError)
 		return
@@ -351,4 +356,55 @@ func addCommentHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Rediriger l'utilisateur vers la page du sujet après l'ajout du commentaire
 	http.Redirect(w, r, "/topic?id="+sujetID, http.StatusSeeOther)
+}
+
+func thewitcher(w http.ResponseWriter, r *http.Request) {
+	tmpl := template.Must(template.ParseFiles("Jeux/Thewitcher/TheWitcher.html"))
+	// Vous pouvez exécuter le modèle avec des données supplémentaires si nécessaire
+	tmpl.Execute(w, nil)
+}
+
+func getSujetsByJeuHandler(w http.ResponseWriter, r *http.Request) {
+	// Récupérer le nom du jeu depuis l'URL de la requête
+	jeu := r.URL.Query().Get("jeu")
+
+	// Récupérer les sujets associés à ce jeu depuis la base de données
+	sujets, err := getSujetsByJeuFromDB(jeu)
+	if err != nil {
+		http.Error(w, "Erreur lors de la récupération des sujets", http.StatusInternalServerError)
+		return
+	}
+
+	// Afficher les sujets associés à ce jeu sur la page HTML
+	tmpl := template.Must(template.ParseFiles("thewitcher.html")) // Assurez-vous que thewitcher.html est votre modèle HTML
+	err = tmpl.Execute(w, sujets)
+	if err != nil {
+		http.Error(w, "Erreur lors de l'exécution du modèle HTML", http.StatusInternalServerError)
+		return
+	}
+}
+
+func getSujetsByJeuFromDB(jeu string) ([]Sujet, error) {
+	// Exécuter la requête SQL pour récupérer les sujets en fonction du nom du jeu
+	rows, err := db.Query("SELECT * FROM sujets WHERE nomDuJeux = ?", jeu)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	// Parcourir les lignes de résultats et construire une liste de sujets
+	var sujets []Sujet
+	for rows.Next() {
+		var sujet Sujet
+		err := rows.Scan(&sujet.ID, &sujet.Titre, &sujet.Contenu, &sujet.Auteur, &sujet.nomDuJeux)
+		if err != nil {
+			return nil, err
+		}
+		sujets = append(sujets, sujet)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return sujets, nil
 }
