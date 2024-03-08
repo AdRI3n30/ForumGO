@@ -359,24 +359,16 @@ func addCommentHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func thewitcher(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles("Jeux/Thewitcher/TheWitcher.html"))
-	// Vous pouvez exécuter le modèle avec des données supplémentaires si nécessaire
-	tmpl.Execute(w, nil)
-}
-
-func getSujetsByJeuHandler(w http.ResponseWriter, r *http.Request) {
-	// Récupérer le nom du jeu depuis l'URL de la requête
-	jeu := r.URL.Query().Get("jeu")
-
-	// Récupérer les sujets associés à ce jeu depuis la base de données
-	sujets, err := getSujetsByJeuFromDB(jeu)
+	// Récupérer les sujets associés à "The Witcher"
+	sujets, err := getSujetsByJeuFromDB("The witcher")
 	if err != nil {
+		fmt.Println(err)
 		http.Error(w, "Erreur lors de la récupération des sujets", http.StatusInternalServerError)
 		return
 	}
 
-	// Afficher les sujets associés à ce jeu sur la page HTML
-	tmpl := template.Must(template.ParseFiles("thewitcher.html")) // Assurez-vous que thewitcher.html est votre modèle HTML
+	// Afficher les sujets sur la page HTML "The Witcher"
+	tmpl := template.Must(template.ParseFiles("Jeux/Thewitcher/TheWitcher.html"))
 	err = tmpl.Execute(w, sujets)
 	if err != nil {
 		http.Error(w, "Erreur lors de l'exécution du modèle HTML", http.StatusInternalServerError)
@@ -386,7 +378,7 @@ func getSujetsByJeuHandler(w http.ResponseWriter, r *http.Request) {
 
 func getSujetsByJeuFromDB(jeu string) ([]Sujet, error) {
 	// Exécuter la requête SQL pour récupérer les sujets en fonction du nom du jeu
-	rows, err := db.Query("SELECT * FROM sujets WHERE nomDuJeux = ?", jeu)
+	rows, err := db.Query("SELECT id, titre, contenu, auteur, nomDuJeux FROM sujets WHERE nomDuJeux = ?", jeu)
 	if err != nil {
 		return nil, err
 	}
