@@ -3,33 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forum</title>
+    <link rel="stylesheet" href="/static/Page_d'accueil.css">
+    <title>Document</title>
 </head>
 <body>
-    <a href="/profil">Profil</a>
-    <a href="/thewitcher">witcher</a>
-    <h1>Forum</h1>
-    
-    <!-- Formulaire de création de sujet -->
-    <form action="/create-topic" method="POST">
-        <label for="title">Titre du sujet :</label><br>
-        <input type="text" id="title" name="title" required><br>
-        <label for="content">Contenu :</label><br>
-        <textarea id="content" name="content" rows="4" cols="50" required></textarea><br>
-        <button type="submit">Créer le sujet</button>
-        <label for="nomDuJeux">Jeu :</label><br>
-        <select id="nomDuJeux" name="nomDuJeux">
-        <option value="Zelda">Zelda</option>
-        <option value="Final Fantasy">Final Fantasy</option>
-        <option value="The witcher">The witcher</option>
-        </select><br>
-    </form>
+    <div class="opaque"></div>
 
-    <!-- Liste des sujets existants -->
-    <ul>
-        {{range .}}
-        <li><a href="/topic?id={{.ID}}">{{.Titre}}</a> par {{.Auteur}}</li>
-        {{end}}
-    </ul>
+    <div class="container">
+        <div class="bubbles">
+            <span style="--i:11;"></span>
+            <span style="--i:12;"></span>
+            <span style="--i:24;"></span>
+            <span style="--i:10;"></span>
+            <span style="--i:14;"></span>
+            <span style="--i:23;"></span>
+            <span style="--i:18;"></span>
+            <span style="--i:16;"></span>
+            <span style="--i:19;"></span>
+            <span style="--i:20;"></span>
+            <span style="--i:22;"></span>
+            <span style="--i:25;"></span>
+            <span style="--i:18;"></span>
+            <span style="--i:21;"></span>
+            <span style="--i:15;"></span>
+            <span style="--i:13;"></span>
+            <span style="--i:26;"></span>
+            <span style="--i:17;"></span>
+            <span style="--i:13;"></span>
+            <span style="--i:28;"></span>
+            <span style="--i:11;"></span>
+            <span style="--i:12;"></span>
+            <span style="--i:24;"></span>
+            <span style="--i:10;"></span>
+            <span style="--i:14;"></span>
+            <span style="--i:23;"></span>
+            <span style="--i:18;"></span>
+            <span style="--i:16;"></span>
+            <span style="--i:19;"></span>
+            <span style="--i:20;"></span>
+            <span style="--i:22;"></span>
+            <span style="--i:25;"></span>
+            <span style="--i:18;"></span>
+            <span style="--i:21;"></span>
+            <span style="--i:15;"></span>
+            <span style="--i:13;"></span>
+            <span style="--i:26;"></span>
+            <span style="--i:17;"></span>
+            <span style="--i:13;"></span>
+            <span style="--i:28;"></span>
+        </div>
+    </div>
+
+    <a class="forum" href="/">
+        <h1>Forum</h1>
+    </a>
+
+    <button id="menuButtonJeux" class="menuButtonJeux">Jeux</button>
+<div id="menuJeux" class="menuJeux">
+    <div class="ButtonMenu">
+        <!-- Boutons de redirection -->
+        <div class="menu-buttons-jeux">
+            <button onclick="window.location.href='../Zelda BOTW/'">Zelda</button>
+            <button onclick="window.location.href='page2.html'">Final Fantasy 7</button>
+            <button onclick="window.location.href='/thewitcher'">The Witcher 3</button>
+        </div>
+    </div>
+</div>
+
+<button id="menuButtonTopics" class="menuButtonTopics">Topics</button>
+<div id="menuTopics" class="menuTopics">
+    <div class="ButtonMenu">
+        <!-- Boutons de redirection -->
+        <div class="menu-buttons-topics">
+            <div class="menu-buttons-topics-text">
+                <button onclick="window.location.href='../Zelda BOTW/'">Zelda</button>
+                <button onclick="window.location.href='page2.html'">Final Fantasy 7</button>
+                <button onclick="window.location.href='/thewitcher'">The Witcher 3</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <button class="menu-button a-propos" onclick="window.location.href='/profil'">
+        A propos
+    </button>
+
+    <button class="menu-button contact" onclick="window.location.href='../générale/contact.html'">
+        Contact
+    </button>  
+
+
+    <script src="/js/Page_d'accueil.js"></script>
+    
 </body>
 </html>

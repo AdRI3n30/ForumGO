@@ -1,0 +1,226 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background: #0c192c;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.bubbles {
+    position: relative;
+    display: flex;
+    z-index: -100;
+}
+
+.bubbles span {
+    position: relative;
+    width: 30px;
+    height: 30px;
+    background: #4fc3dc;
+    margin: 0 4px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 10px #4fc3dc44,
+    0 0 50px #4fc3dc,
+    0 0 100px #4fc3dc;
+    animation: animate 15s linear infinite;
+    animation-duration: calc(125s / var(--i));
+}
+
+.bubbles span:nth-child(even)
+{
+    background: #ff2d75;
+    box-shadow: 0 0 0 10px #ff2d7544,
+    0 0 50px #ff2d75
+    0 0 100px #ff2d75;
+}
+@keyframes animate 
+{
+    0%
+    {
+        transform: translateY(100vh) scale(0);
+    }
+    100%
+    {
+        transform: translateY(-10vh) scale(1);
+    }
+}
+
+
+.opaque{
+    position: absolute;
+    height: 14vh;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.474);
+    z-index: 1;
+}
+
+.forum{
+    color: white;
+    position: absolute;
+    border: red px solid;
+    width: 7rem;
+    height: 3rem;
+    z-index: 1;
+    margin-top: -44rem;
+    margin-left: 48%;
+    text-decoration: none;
+}
+
+/* Début Menu bouton jeux */
+
+.menuButtonJeux{
+    position: absolute;
+    border: red 5px solid;
+    margin-top: -42rem;
+    margin-left: 35%;
+    z-index: 1;
+    color: white;
+    background: none;
+    border: none;
+    font-size: 20px;
+
+}
+
+.menuJeux {
+    display: none;
+    position: absolute;
+}
+
+.menuJeux.show {
+    display: block;
+}
+
+.menu-buttons-jeux {
+    position: relative; /* Change to relative */
+    text-align: center;
+    border: none;
+    margin-top: -37rem;
+    margin-left: 29rem;
+    width: 10rem;
+}
+
+.menu-buttons-jeux::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: grey;
+    filter: blur(10px);
+    z-index: -1; /* Place the pseudo-element behind the text */
+}
+
+.menuJeux button {
+    display: inline-block;
+    border: none;
+    background: none;
+    color: white;
+    margin: 8px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+/* Fin Menu Jeux */
+
+/* Début Menu Topics */
+
+.menuButtonTopics{
+    position: absolute;
+    border: red 5px solid;
+    margin-top: -42rem;
+    margin-left: 15%;
+    z-index: 1;
+    color: white;
+    background: none;
+    border: none;
+    font-size: 20px;
+
+}
+
+.menuTopics {
+    display: none;
+    position: absolute;
+}
+
+.menuTopics.show {
+    display: block;
+}
+
+.menu-buttons-topics {
+    position: relative; /* Change to relative */
+    text-align: center;
+    border: none;
+    margin-top: -37rem;
+    margin-left: 11rem;
+    width: 10rem;
+}
+
+.menu-buttons-topics::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: grey;
+    filter: blur(10px);
+    z-index: -1; /* Place the pseudo-element behind the text */
+}
+
+.menu-buttons-topics-text {
+    position: relative; /* Add relative positioning to contain z-index */
+    z-index: 1; /* Bring the text to the front */
+    /* You can add styles to the text here if needed */
+}
+
+.menuTopics button {
+    display: inline-block;
+    border: none;
+    background: none;
+    color: white;
+    margin: 8px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+/* Fin Menu Jeux */
+
+
+.a-propos {
+    z-index: 1;
+    position: absolute;
+    color: white;
+    background: none;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    margin-top: -42.6rem;
+    margin-left: 85%;
+    font-size: 20px;
+}
+
+.contact {
+    z-index: 1;
+    position: absolute;
+    color: white;
+    background: none;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    margin-top: -42.6rem;
+    margin-left: 65%;
+    font-size: 20px;
+}
