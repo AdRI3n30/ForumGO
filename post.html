@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/post.css">
+    <title>Post</title>
+</head>
+<body>
+    <!-- Formulaire de création de sujet -->
+    <form action="/create-topic" method="POST">
+        <label for="title">Titre du sujet :</label><br>
+        <input type="text" id="title" name="title" required><br>
+        <label for="content">Contenu :</label><br>
+        <textarea id="content" name="content" rows="4" cols="50" required></textarea><br>
+        <label for="nomDuJeux">Jeu :</label><br>
+        <select id="nomDuJeux" name="nomDuJeux">
+        <option value="Zelda">Zelda</option>
+        <option value="Final Fantasy">Final Fantasy</option>
+        <option value="The witcher">The witcher</option>
+        </select><br>
+        <button type="submit">Créer le sujet</button>
+    </form>
+</body>
+</html>

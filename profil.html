@@ -13,25 +13,11 @@
     <p>Nom: {{.Nom}}</p>
     <p>Prénom: {{.Prenom}}</p>
     <p>Email: {{.Email}}</p>
-    <img src="/images/{{.Image_profil}}" alt="Image de profil">
+    <img src="/Assets/profil/{{.Image_profil}}" alt="Image de profil">
     
     <form action="/logout" method="post">
         <button type="submit">Se déconnecter</button>
     </form>
-    <!-- Formulaire de création de sujet -->
-    <form action="/create-topic" method="POST">
-        <label for="title">Titre du sujet :</label><br>
-        <input type="text" id="title" name="title" required><br>
-        <label for="content">Contenu :</label><br>
-        <textarea id="content" name="content" rows="4" cols="50" required></textarea><br>
-        <button type="submit">Créer le sujet</button>
-        <label for="nomDuJeux">Jeu :</label><br>
-        <select id="nomDuJeux" name="nomDuJeux">
-        <option value="Zelda">Zelda</option>
-        <option value="Final Fantasy">Final Fantasy</option>
-        <option value="The witcher">The witcher</option>
-        </select><br>
-    </form>
-
+    <a  href="/post"> post</a>
 </body>
 </html>

@@ -4,8 +4,13 @@ import (
 	"database/sql"
 	"fmt"
 	"html/template"
+	"io"
 	"log"
 	"net/http"
+	"os"
+	"path/filepath"
+
+	"github.com/google/uuid"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/sessions"
@@ -32,6 +37,7 @@ func main() {
 	http.HandleFunc("/add-comment", addCommentHandler)
 	http.HandleFunc("/thewitcher", thewitcher)
 	http.HandleFunc("/ff7", finalFantasy7Handler)
+	http.HandleFunc("/post", pageHandler)
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	http.Handle("/Assets/", http.StripPrefix("/Assets/", http.FileServer(http.Dir("Assets"))))
 	http.Handle("/js/", http.StripPrefix("/js/", http.FileServer(http.Dir("js"))))
@@ -44,7 +50,7 @@ type Utilisateur struct {
 	Prenom       string
 	Pseudo       string
 	Email        string
-	Image_profil sql.NullString
+	Image_profil string
 }
 
 type Sujet struct {
@@ -95,7 +101,7 @@ func forumHandler(w http.ResponseWriter, r *http.Request) {
 func registerHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		// Afficher le formulaire d'inscription s'il s'agit d'une requête GET
-		tmpl := template.Must(template.ParseFiles("register.html")) // Assurez-vous d'avoir un fichier register.html avec le formulaire d'inscription
+		tmpl := template.Must(template.ParseFiles("register.html"))
 		tmpl.Execute(w, nil)
 		return
 	}
@@ -107,8 +113,33 @@ func registerHandler(w http.ResponseWriter, r *http.Request) {
 	email := r.FormValue("email")
 	motDePasse := r.FormValue("mot_de_passe")
 
-	// Insérer les données dans la base de données avec le mot de passe en texte brut
-	_, err := db.Exec("INSERT INTO utilisateurs (nom, prenom, pseudo, email, mot_de_passe) VALUES (?, ?, ?, ?, ?)", nom, prenom, pseudo, email, motDePasse)
+	// Enregistrer l'image de profil sur le serveur
+	file, handler, err := r.FormFile("image_profil")
+	if err != nil {
+		http.Error(w, "Erreur lors du téléchargement de l'image de profil", http.StatusInternalServerError)
+		return
+	}
+	defer file.Close()
+
+	// Enregistrer le fichier sur le serveur avec un nom unique
+	fileName := uuid.New().String() + filepath.Ext(handler.Filename)
+	filePath := filepath.Join("Assets/profil", fileName)
+	outFile, err := os.Create(filePath)
+	if err != nil {
+		http.Error(w, "Erreur lors de l'enregistrement de l'image de profil sur le serveur", http.StatusInternalServerError)
+		return
+	}
+	defer outFile.Close()
+
+	// Copier le contenu du fichier dans le fichier de sortie
+	_, err = io.Copy(outFile, file)
+	if err != nil {
+		http.Error(w, "Erreur lors de l'enregistrement de l'image de profil sur le serveur", http.StatusInternalServerError)
+		return
+	}
+
+	// Insérer les données dans la base de données avec le nom de fichier de l'image de profil
+	_, err = db.Exec("INSERT INTO utilisateurs (nom, prenom, pseudo, email, mot_de_passe, image_profil) VALUES (?, ?, ?, ?, ?, ?)", nom, prenom, pseudo, email, motDePasse, fileName)
 	if err != nil {
 		http.Error(w, "Erreur lors de l'inscription de l'utilisateur", http.StatusInternalServerError)
 		return
@@ -118,7 +149,8 @@ func registerHandler(w http.ResponseWriter, r *http.Request) {
 	session.Values["authenticated"] = true
 	session.Values["pseudo"] = pseudo
 	session.Save(r, w)
-	// Rediriger l'utilisateur vers la page de connexion après inscription réussie
+
+	// Rediriger l'utilisateur vers la page d'accueil après l'inscription réussie
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
@@ -192,9 +224,8 @@ func profilHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Récupérer les informations de l'utilisateur depuis la base de données
 	var utilisateur Utilisateur
-	err = db.QueryRow("SELECT nom, prenom, email, pseudo, image_profil FROM utilisateurs WHERE pseudo = ?", pseudo).Scan(&utilisateur.Nom, &utilisateur.Prenom, &utilisateur.Pseudo, &utilisateur.Email, &utilisateur.Image_profil)
+	err = db.QueryRow("SELECT nom, prenom, email, pseudo, image_profil FROM utilisateurs WHERE pseudo = ?", pseudo).Scan(&utilisateur.Nom, &utilisateur.Prenom, &utilisateur.Email, &utilisateur.Pseudo, &utilisateur.Image_profil)
 	if err != nil {
-		fmt.Println(err)
 		http.Error(w, "Erreur lors de la récupération des informations de l'utilisateur", http.StatusInternalServerError)
 		return
 	}
@@ -268,7 +299,6 @@ func createTopicHandler(w http.ResponseWriter, r *http.Request) {
 func topicHandler(w http.ResponseWriter, r *http.Request) {
 	// Récupérer l'identifiant du sujet à partir des paramètres de requête
 	topicID := r.URL.Query().Get("id")
-	fmt.Println(topicID)
 
 	// Récupérer les détails du sujet depuis la base de données
 	var sujet Sujet
@@ -367,7 +397,6 @@ func thewitcher(w http.ResponseWriter, r *http.Request) {
 	// Récupérer les sujets associés à "The Witcher"
 	sujets, err := getSujetsByJeuFromDB("The witcher")
 	if err != nil {
-		fmt.Println(err)
 		http.Error(w, "Erreur lors de la récupération des sujets", http.StatusInternalServerError)
 		return
 	}
@@ -410,7 +439,6 @@ func finalFantasy7Handler(w http.ResponseWriter, r *http.Request) {
 	// Récupérer les sujets associés à "The Witcher"
 	sujets, err := getSujetsByJeuFromDB("Final Fantasy")
 	if err != nil {
-		fmt.Println(err)
 		http.Error(w, "Erreur lors de la récupération des sujets", http.StatusInternalServerError)
 		return
 	}
@@ -420,6 +448,18 @@ func finalFantasy7Handler(w http.ResponseWriter, r *http.Request) {
 	err = tmpl.Execute(w, sujets)
 	if err != nil {
 		http.Error(w, "Erreur lors de l'exécution du modèle HTML", http.StatusInternalServerError)
+		return
+	}
+}
+
+func pageHandler(w http.ResponseWriter, r *http.Request) {
+	// Charger la page HTML
+	tmpl := template.Must(template.ParseFiles("post.html"))
+
+	// Exécuter le modèle et écrire le résultat dans la réponse HTTP
+	err := tmpl.Execute(w, nil)
+	if err != nil {
+		http.Error(w, "Erreur lors de l'affichage de la page", http.StatusInternalServerError)
 		return
 	}
 }

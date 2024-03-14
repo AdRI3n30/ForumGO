@@ -1,0 +1,83 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #000;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    width: 50%;
+    background-color: #000;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px #00ffff, 0 0 10px #00ffff;
+}
+
+form {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+textarea,
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #00ffff;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background: transparent;
+    color: #fff;
+}
+
+textarea {
+    height: 100px;
+}
+
+button[type="submit"] {
+    background-color: #00ffff;
+    color: #000;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button[type="submit"]:hover {
+    background-color: #00b3b3;
+}
+
+/* Style pour le select */
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #00ffff;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background: transparent;
+    color: #fff;
+}
+
+/* Style pour les options du select */
+select option {
+    background: #000;
+    color: #fff;
+}
+
+/* Style pour les titres */
+h1, h2, h3, h4, h5, h6 {
+    color: #fff;
+}
