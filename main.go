@@ -407,22 +407,19 @@ func getSujetsByJeuFromDB(jeu string) ([]Sujet, error) {
 }
 
 func finalFantasy7Handler(w http.ResponseWriter, r *http.Request) {
-	// Charger la page HTML de Final Fantasy 7
-	tmpl := template.Must(template.ParseFiles("Jeux/Final-Fantasy/ff7.html"))
-
-	// Données à passer au modèle si nécessaire
-	data := struct {
-		Title string
-		// Autres données nécessaires à la page
-	}{
-		Title: "Final Fantasy 7",
-		// Assignez d'autres données nécessaires à la page ici
+	// Récupérer les sujets associés à "The Witcher"
+	sujets, err := getSujetsByJeuFromDB("Final Fantasy")
+	if err != nil {
+		fmt.Println(err)
+		http.Error(w, "Erreur lors de la récupération des sujets", http.StatusInternalServerError)
+		return
 	}
 
-	// Exécuter le modèle avec les données et écrire le résultat dans la réponse HTTP
-	err := tmpl.Execute(w, data)
+	// Afficher les sujets sur la page HTML "The Witcher"
+	tmpl := template.Must(template.ParseFiles("Jeux/Final-Fantasy/ff7.html"))
+	err = tmpl.Execute(w, sujets)
 	if err != nil {
-		http.Error(w, "Erreur lors de l'affichage de la page Final Fantasy 7", http.StatusInternalServerError)
+		http.Error(w, "Erreur lors de l'exécution du modèle HTML", http.StatusInternalServerError)
 		return
 	}
 }

@@ -4,7 +4,7 @@
 }
 
 body {
-    background-image: url("../Assets/Fond\ the\ Witcher.png");
+    background-image: url('../Assets/Fond\ the\ Witcher.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -23,21 +23,27 @@ body {
     margin-left: 7rem;
 }
 
-.TheForum{
-    display: flex;
-    width: 2rem;
-    height: 2rem;
+.forum-button{
+    z-index: 1;
+    position: absolute;
+    background: none;
+    width: 7rem;
+    height: 5rem;
     text-align: center;
     margin-top: 2rem;
-    margin-left: 7rem;
-    z-index: 1;
+    margin-left: 6.5rem;
+    list-style: none;
+    text-decoration: none;
+    color: white;
+    border: none;
 }
 
 .rectangle_menu .logo_witcher{
+    position: absolute;
     width: 20rem;
     height: 17rem;
     margin-top: 1rem;
-    margin-left: -8.5rem;
+    z-index: 0;
 }
 
 .topics-button {
@@ -122,24 +128,27 @@ body {
 .jeux-menu {
     display: none;
     position: absolute;
-    background: rgba(0, 0, 0, 0.8);
     height: 20rem;
     width: 20rem;
     margin-top: 20rem;
     margin-left: 22rem;
     padding: 10px;
     color: white;
+}
+
+.jeux-menu::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: inherit;
+    background: black;
     filter: blur(10px);
+    z-index: -1; /* Pour placer le pseudo-élément derrière le contenu textuel */
 }
 
-.jeux-button{
+.jeux-button {
     position: absolute;
     color: white;
     background: none;
@@ -156,11 +165,56 @@ body {
     display: none;
     position: absolute;
     width: 20rem;
-    top: 20.5rem;
-    left: 22rem;
+    top: 20.2rem;
+    left: 22.4rem;
     color: white;
     text-align: center;
 }
+
+/* Styles pour les boutons à l'intérieur du menu */
+.jeux-menu {
+    display: none;
+    position: absolute;
+    height: 20rem;
+    width: 20rem;
+    margin-top: 20rem;
+    margin-left: 22rem;
+    padding: 10px;
+    color: white;
+}
+
+.jeux-menu::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: black;
+    filter: blur(10px);
+    z-index: -1;
+}
+
+.jeux-menu-buttons {
+    display: flex;
+    flex-direction: column;
+}
+
+.jeux-menu button {
+    margin-top: 2.2rem;
+    font-size: 20px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    text-align: left;
+}
+
+.jeux-menu button:hover {
+    text-decoration: underline;
+}
+
+
 
 .contact {
     position: absolute;

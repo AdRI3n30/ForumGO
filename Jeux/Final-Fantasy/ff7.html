@@ -22,6 +22,9 @@
         <div class="hidden-menu topics-menu" id="topicsMenu"></div>
         <div class="topics-text" id="topicsText">
             <h1>Topics - Final Fantasy 7</h1>
+            {{range .}}
+                <li><a href="/topic?id={{.ID}}">{{.Titre}}</a> par {{.Auteur}}</li>
+            {{end}}
         </div>
 
         <div class="Jeux-text" id="JeuxText">
