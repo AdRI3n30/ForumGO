@@ -113,6 +113,10 @@ func registerHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	session, _ := store.Get(r, sessionName)
+	session.Values["authenticated"] = true
+	session.Values["pseudo"] = pseudo
+	session.Save(r, w)
 	// Rediriger l'utilisateur vers la page de connexion après inscription réussie
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
