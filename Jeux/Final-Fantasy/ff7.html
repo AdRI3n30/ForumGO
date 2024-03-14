@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/ff7.css">
+    <title>Forum</title>
+</head>
+<body>
+    <div class="rectangle_menu"> </div>
+
+        <button class="forum-button" onclick="window.location.href='../générale/Page_d\'accueil.html'">
+            <h1>Forum</h1>
+        </button>
+
+        <div class="trait"></div>
+
+        <button class="menu-button topics-button" onclick="toggleMenu('topicsMenu', 'topics-triangle', 'topicsText')">
+            Topics
+            <div class="triangle topics-triangle"></div>
+        </button>
+        <div class="hidden-menu topics-menu" id="topicsMenu"></div>
+        <div class="topics-text" id="topicsText">
+            <h1>Topics - Final Fantasy 7</h1>
+        </div>
+
+        <div class="Jeux-text" id="JeuxText">
+            <h1>Jeux</h1>
+        </div>
+        
+
+        <button class="menu-button a-propos" onclick="window.location.href='../générale/a_propos.html'">
+            A propos
+        </button>
+        
+        <button class="menu-button contact" onclick="window.location.href='../générale/contact.html'">
+            Contact
+        </button>        
+
+    <button class="menu-button jeux-button" onclick="toggleMenu('JeuxMenu', 'jeux-triangle', 'JeuxText')">
+        Jeux
+        <div class="triangle jeux-triangle"></div>
+    </button>
+    <div class="hidden-menu jeux-menu" id="JeuxMenu">
+        <div class="jeux-menu-buttons">
+            <button onclick="window.location.href='../Zelda BOTW/Zelda BOTW.html'">Zelda</button>
+            <button onclick="window.location.href='/ff7'">Final Fantasy 7</button>
+            <button onclick="window.location.href='/thewitcher'">The Witcher 3</button>
+            <button onclick="window.location.href='../TheWitcher3/TheWitcher3.html'">Yakuza: Infinite Wealth</button>
+            <button onclick="window.location.href='../TheWitcher3/TheWitcher3.html'">The Last Of Us 2</button>
+        </div>
+    </div>
+
+    <img src="../../Assets/Losange FF7.png" class="losange1" alt="losange1">
+    <img src="../../Assets/Losange FF7.png" class="losange2" alt="losange2">
+    <img src="../../Assets/Losange FF7.png" class="losange3" alt="losange3">
+    <img src="../../Assets/Losange FF7.png" class="losange4" alt="losange4">
+
+    
+    <script src="/js/ff7.js"></script>
+</body>
+</html>
