@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/edit.css">
+    <title>My Topics</title>
+</head>
+<body>
+    <h1>My Topics</h1>
+    <ul>
+        {{range .}}
+        <li>{{.Titre}}  <form action="/edit-topic?id={{.ID}}" method="post">
+            Nouveau titre: <input type="text" name="new_title">
+            <button type="submit">Modifier</button>
+        </form> | <a href="/delete-topic?id={{.ID}}">Delete</a></li>
+        {{end}}
+    </ul>
+</body>
+</html>

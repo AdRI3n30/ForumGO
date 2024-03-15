@@ -1,0 +1,52 @@
+/* Style général pour le formulaire d'édition */
+.edit-form {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style pour les titres */
+.edit-form h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Style pour les champs de formulaire */
+.edit-form input[type="text"],
+.edit-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Style pour les boutons */
+.edit-form button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.edit-form button:hover {
+    background-color: #45a049;
+}
+
+/* Style pour les messages d'erreur */
+.error-message {
+    color: red;
+    margin-top: 5px;
+}
+
+/* Style pour les messages de succès */
+.success-message {
+    color: green;
+    margin-top: 5px;
+}

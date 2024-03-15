@@ -38,6 +38,9 @@ func main() {
 	http.HandleFunc("/thewitcher", thewitcher)
 	http.HandleFunc("/ff7", finalFantasy7Handler)
 	http.HandleFunc("/post", pageHandler)
+	http.HandleFunc("/editopic", getMyTopicsHandler)
+	http.HandleFunc("/delete-topic", deleteTopicHandler)
+	http.HandleFunc("/edit-topic", editTopicHandler)
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	http.Handle("/Assets/", http.StripPrefix("/Assets/", http.FileServer(http.Dir("Assets"))))
 	http.Handle("/js/", http.StripPrefix("/js/", http.FileServer(http.Dir("js"))))
@@ -462,4 +465,100 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Erreur lors de l'affichage de la page", http.StatusInternalServerError)
 		return
 	}
+}
+
+func getMyTopicsHandler(w http.ResponseWriter, r *http.Request) {
+	// Récupérer le pseudo de l'utilisateur depuis la session
+	session, err := store.Get(r, sessionName)
+	if err != nil {
+		http.Error(w, "Erreur de session", http.StatusInternalServerError)
+		return
+	}
+	pseudo, ok := session.Values["pseudo"].(string)
+	if !ok {
+		http.Error(w, "Utilisateur non connecté", http.StatusUnauthorized)
+		return
+	}
+
+	// Récupérer les sujets de l'utilisateur depuis la base de données
+	sujets, err := getMyTopicsFromDB(pseudo)
+	if err != nil {
+		http.Error(w, "Erreur lors de la récupération de vos sujets", http.StatusInternalServerError)
+		return
+	}
+
+	// Afficher les sujets de l'utilisateur sur la page HTML
+	tmpl := template.Must(template.ParseFiles("ediTopic.html"))
+	err = tmpl.Execute(w, sujets)
+	if err != nil {
+		http.Error(w, "Erreur lors de l'affichage de vos sujets", http.StatusInternalServerError)
+		return
+	}
+}
+
+func getMyTopicsFromDB(pseudo string) ([]Sujet, error) {
+	// Récupérer les sujets de l'utilisateur depuis la base de données en fonction de son pseudo
+	rows, err := db.Query("SELECT id, titre FROM sujets WHERE auteur = ?", pseudo)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	// Créer une slice pour stocker les sujets de l'utilisateur
+	var sujets []Sujet
+
+	// Parcourir les résultats de la requête et ajouter les sujets à la slice
+	for rows.Next() {
+		var sujet Sujet
+		err := rows.Scan(&sujet.ID, &sujet.Titre)
+		if err != nil {
+			return nil, err
+		}
+		sujets = append(sujets, sujet)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return sujets, nil
+}
+
+func deleteTopicHandler(w http.ResponseWriter, r *http.Request) {
+	// Récupérer l'identifiant du sujet à supprimer depuis les paramètres de requête
+	topicID := r.URL.Query().Get("id")
+
+	// Supprimer le sujet de la base de données en fonction de son identifiant
+	_, err := db.Exec("DELETE FROM sujets WHERE id = ?", topicID)
+	if err != nil {
+		http.Error(w, "Erreur lors de la suppression du sujet", http.StatusInternalServerError)
+		return
+	}
+
+	// Rediriger l'utilisateur vers la page de ses sujets après la suppression
+	http.Redirect(w, r, "/editopic", http.StatusSeeOther)
+}
+
+func editTopicHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+
+		http.Error(w, "Méthode non autorisée", http.StatusMethodNotAllowed)
+		return
+	}
+
+	// Récupérer l'identifiant du sujet à mettre à jour depuis les paramètres de requête
+	topicID := r.URL.Query().Get("id")
+
+	// Récupérer le nouveau titre du sujet depuis le formulaire de modification
+	r.ParseForm()
+	newTitle := r.FormValue("new_title")
+
+	// Mettre à jour le titre du sujet dans la base de données
+	_, err := db.Exec("UPDATE sujets SET titre = ? WHERE id = ?", newTitle, topicID)
+	if err != nil {
+		http.Error(w, "Erreur lors de la mise à jour du titre du sujet", http.StatusInternalServerError)
+		return
+	}
+
+	// Rediriger l'utilisateur vers la page de ses sujets après la mise à jour
+	http.Redirect(w, r, "/editopic", http.StatusSeeOther)
 }

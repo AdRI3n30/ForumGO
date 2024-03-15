@@ -1,0 +1,270 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:900i');
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: black;
+    overflow: hidden;
+}
+
+.retour {
+    position: absolute;
+    width: 15rem;
+    height: 3rem;
+    background: white;
+    top: 5rem;
+    border: none;
+    border-radius: 0 1.5rem 1.5rem 0;
+    z-index: 1;
+    font-size: 18px;
+}
+
+.retour::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    background-color: rgb(204, 204, 204);
+    border-radius: 0 1.5rem 1.5rem 0;
+
+
+    transition: transform 300ms ease-in-out;
+    transform: scaleX(0);
+    transform-origin: right;
+}
+
+.retour:hover::before,
+.retour:focus::before {
+    transform: scaleX(1);
+} 
+
+
+.profil {
+    position: absolute;
+    width: 15rem;
+    height: 2.3rem;
+    background: white;
+    left: 40%;
+    top: 3.5em;
+    border-radius: 1.5rem;
+}
+
+.profil_text {
+    text-align: center;
+}
+
+.perso {
+    position: absolute;
+    width: 29rem;
+    height: 2.5rem;
+    background: white;
+    left: 32.5%;
+    top: 7.5rem;
+    border-radius: 1.5rem;
+}
+
+.perso_text {
+    text-align: center;
+}
+
+.image_profil {
+    position: absolute;
+    width: 20rem;
+    height: 20rem;
+    top: 28%;
+    left: 37%;
+    border-radius: 15rem;
+    border: 5px solid purple;
+    background-color: white;
+}
+
+.image{
+    width:100% ;
+    height:100% ;
+    border-radius: 15rem;
+}
+
+.name {
+    position: absolute;
+    width: 27rem;
+    height: 2.5rem;
+    background-color: white;
+    top: 30%;
+    border-radius: 0 1.5rem 1.5rem 0;
+    border: aqua 3px solid;
+    border-left: 0;
+}
+
+.name_text{
+    margin-left: 0.2rem;
+}
+
+.surname {
+    position: absolute;
+    width: 27rem;
+    height: 2.5rem;
+    background-color: white;
+    top: 40%;
+    border-radius: 0 1.5rem 1.5rem 0;
+    border: aqua 3px solid;
+    border-left: 0;
+}
+
+.surname_text {
+    margin-left: 0.2rem;
+}
+
+
+.pseudo {
+    position: absolute;
+    width: 27rem;
+    height: 2.5rem;
+    background-color: white;
+    top: 50%;
+    border-radius: 0 1.5rem 1.5rem 0;
+    border: aqua 3px solid;
+    border-left: 0;
+}
+
+.pseudo_text {
+    margin-left: 0.2rem;
+}
+
+.e-mail {
+    position: absolute;
+    width: 27rem;
+    height: 5rem;
+    background-color: white;
+    top: 60%;
+    border-radius: 0 1.5rem 1.5rem 0;
+    border: aqua 3px solid;
+    border-left: 0;
+}
+
+.e-mail_text {
+    margin-left: 0.2rem;
+}
+
+.create {
+    position: absolute;
+    top: 35%;
+    right: 2rem;
+    z-index: 1;
+}
+
+
+.create_text {
+    text-decoration: none;
+    margin-left: 0.5rem;
+    width: 100%; /* Ajout de cette propriété */
+    height: 100%; /* Ajout de cette propriété */
+    display: block; /* Assurez-vous que le bouton se comporte comme un bloc pour occuper tout l'espace disponible */
+}
+
+.create2 {
+    position: absolute;
+    top: 78%;
+    right: 25rem;
+    z-index: 1;
+}
+.create3 {
+    position: absolute;
+    top: 55%;
+    right: 2rem;
+    z-index: 1;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    z-index: 2;
+  }
+  
+  .cta {
+      display: flex;
+      padding: 10px 45px;
+      text-decoration: none;
+      font-family: 'Poppins', sans-serif;
+      font-size: 35px;
+      color: white;
+      background: #6225E6;
+      transition: 1s;
+      box-shadow: 6px 6px 0 black;
+      transform: skewX(-15deg);
+  }
+  
+  .cta:focus {
+     outline: none; 
+  }
+  
+  .cta:hover {
+      transition: 0.5s;
+      box-shadow: 10px 10px 0 #0cd1f9;
+  }
+  
+  .cta span:nth-child(2) {
+      transition: 0.5s;
+      margin-right: 0px;
+  }
+  
+  .cta:hover  span:nth-child(2) {
+      transition: 0.5s;
+      margin-right: 45px;
+  }
+  
+    span {
+      transform: skewX(15deg) 
+    }
+  
+    span:nth-child(2) {
+      width: 20px;
+      margin-left: 30px;
+      position: relative;
+      top: 12%;
+    }
+    
+  /**************SVG****************/
+  
+  path.one {
+      transition: 0.4s;
+      transform: translateX(-60%);
+  }
+  
+  path.two {
+      transition: 0.5s;
+      transform: translateX(-30%);
+  }
+  
+  .cta:hover path.three {
+      animation: color_anim 1s infinite 0.2s;
+  }
+  
+  .cta:hover path.one {
+      transform: translateX(0%);
+      animation: color_anim 1s infinite 0.6s;
+  }
+  
+  .cta:hover path.two {
+      transform: translateX(0%);
+      animation: color_anim 1s infinite 0.4s;
+  }
+  
+  /* SVG animations */
+  
+  @keyframes color_anim {
+      0% {
+          fill: white;
+      }
+      50% {
+          fill: #0cd1f9;
+      }
+      100% {
+          fill: white;
+      }
+  }
