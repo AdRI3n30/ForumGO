@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/contact.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="opaque"></div>
+    <div class="telephone">
+        <img class="set" src="../Assets/set_contact/telephone.png" alt="telephone">
+        <h3 class="telephone_text">Contact par téléphone</h3>
+        <h2 class="telephone_text">+33 00 00 00 00 00</h2>
+    </div>
+
+    <div class="e-mail">
+        <img class="set2" src="../Assets/set_contact/e-mail.png">
+        <h3 class="e-mail_text">Contact par couriels</h3>
+        <h3 class="e-mail_text">xxxxxxx.xxxxxx@ynov.com</h3>
+    </div>
+
+
+
+    <div class="adresse"> 
+        <img class="set4" src="../Assets/set_contact/maps.png">
+        <h3 class="adresse_text">Nous trouver</h3>
+        <h2 class="adresse_text"> pl Sophie Laffitte,</h2>
+        <h2 class="adresse_text"> 06560 Valbonne </h2>
+    </div>
+
+    <div class="container">
+        <div class="bubbles">
+            <span style="--i:11;"></span>
+            <span style="--i:12;"></span>
+            <span style="--i:24;"></span>
+            <span style="--i:10;"></span>
+            <span style="--i:14;"></span>
+            <span style="--i:23;"></span>
+            <span style="--i:18;"></span>
+            <span style="--i:16;"></span>
+            <span style="--i:19;"></span>
+            <span style="--i:20;"></span>
+            <span style="--i:22;"></span>
+            <span style="--i:25;"></span>
+            <span style="--i:18;"></span>
+            <span style="--i:21;"></span>
+            <span style="--i:15;"></span>
+            <span style="--i:13;"></span>
+            <span style="--i:26;"></span>
+            <span style="--i:17;"></span>
+            <span style="--i:13;"></span>
+            <span style="--i:28;"></span>
+            <span style="--i:11;"></span>
+            <span style="--i:12;"></span>
+            <span style="--i:24;"></span>
+            <span style="--i:10;"></span>
+            <span style="--i:14;"></span>
+            <span style="--i:23;"></span>
+            <span style="--i:18;"></span>
+            <span style="--i:16;"></span>
+            <span style="--i:19;"></span>
+            <span style="--i:20;"></span>
+            <span style="--i:22;"></span>
+            <span style="--i:25;"></span>
+            <span style="--i:18;"></span>
+            <span style="--i:21;"></span>
+            <span style="--i:15;"></span>
+            <span style="--i:13;"></span>
+            <span style="--i:26;"></span>
+            <span style="--i:17;"></span>
+            <span style="--i:13;"></span>
+            <span style="--i:28;"></span>
+        </div>
+    </div>
+
+    <a class="forum ButtonMenu" href="/">
+        <h1>Forum</h1>
+    </a>
+
+    <button id="menuButtonJeux" class="menuButtonJeux ButtonMenu">Jeux</button>
+    <div id="menuJeux" class="menuJeux">
+        <div class="ButtonMenu">
+            <!-- Boutons de redirection -->
+            <div class="menu-buttons-jeux">
+                <button onclick="window.location.href='/zelda'">Zelda</button>
+                <button onclick="window.location.href='/ff7'">Final Fantasy 7</button>
+                <button onclick="window.location.href='/thewitcher'">The Witcher 3</button>
+            </div>
+        </div>
+    </div>
+
+    <button id="menuButtonTopics" class="menuButtonTopics ButtonMenu">Topics</button>
+    <div id="menuTopics" class="menuTopics">
+        <div class="ButtonMenu">
+            <!-- Boutons de redirection -->
+            <div class="menu-buttons-topics">
+                <div class="menu-buttons-topics-text">
+                    <button onclick="window.location.href='/zelda'">Zelda</button>
+                    <button onclick="window.location.href='/ff7'">Final Fantasy 7</button>
+                    <button onclick="window.location.href='/thewitcher'">The Witcher 3</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <button class="menu-button a-propos ButtonMenu" onclick="window.location.href='/propos'">
+            A propos
+        </button>
+
+        <button class="menu-button contact ButtonMenu" onclick="window.location.href='/contact'">
+            Contact
+        </button> 
+
+        <button class="menu-button profil " onclick="window.location.href='/profil'">
+            <div class="profil_img"></div>
+            <img src="/Assets/profil/{{.Image_profil}}" alt="Image de profil" width="100%" height="100%" class="image">
+        </button>
+        
+
+
+        <div id="map" class="maps">
+        </div>
+
+    <script>
+        (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
+            key: "AIzaSyDHdkjvSTPOEOZ7aR4tFBwrZQ3PZ9fbM70",
+            v: "weekly",
+            // Use the 'v' parameter to indicate the version to use (weekly, beta, alpha, etc.).
+            // Add other bootstrap parameters as needed, using camel case.
+        });
+    </script>
+
+
+    <script src="/js/contact.js"></script>
+    
+</body>
+</html>

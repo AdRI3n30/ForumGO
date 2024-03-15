@@ -16,6 +16,13 @@ body {
     overflow: hidden;
 }
 
+.image{
+    cursor: pointer;
+    width:100% ;
+    height:100% ;
+    border-radius: 15rem;
+}
+
 .bubbles {
     position: relative;
     display: flex;
@@ -58,7 +65,7 @@ body {
 
 .opaque{
     position: absolute;
-    height: 14vh;
+    height: 6rem;
     width: 100%;
     background: rgba(0, 0, 0, 0.474);
     z-index: 1;
@@ -67,14 +74,35 @@ body {
 .forum{
     color: white;
     position: absolute;
-    border: red px solid;
-    width: 7rem;
-    height: 3rem;
+    border: black 0.1px solid;
+    width: 6rem;
+    height: 2.2rem;
     z-index: 1;
     margin-top: -44rem;
     margin-left: 48%;
     text-decoration: none;
 }
+
+/* MenuButton underline */
+
+.ButtonMenu::before {
+        content: '';
+        position: absolute;
+        bottom: -0.2rem;
+        left: 0;
+        width: 0%;
+        height: 0.3rem;
+        background-color: rgb(212, 0, 255);
+        transition: all .5s;
+        border-radius: 0.5rem;
+}
+
+.ButtonMenu:hover::before{
+        width: 100%;
+}
+
+/* Fin underline */
+
 
 /* Début Menu bouton jeux */
 
@@ -83,7 +111,7 @@ body {
     border: red 5px solid;
     margin-top: -42rem;
     margin-left: 35%;
-    z-index: 1;
+    z-index: 5;
     color: white;
     background: none;
     border: none;
@@ -101,6 +129,7 @@ body {
 }
 
 .menu-buttons-jeux {
+    z-index: 2;
     position: relative; /* Change to relative */
     text-align: center;
     border: none;
@@ -116,7 +145,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: grey;
+    background: rgb(0, 0, 0);
     filter: blur(10px);
     z-index: -1; /* Place the pseudo-element behind the text */
 }
@@ -203,11 +232,10 @@ body {
     color: white;
     background: none;
     border: none;
-    padding: 10px;
     cursor: pointer;
     display: flex;
-    margin-top: -42.6rem;
-    margin-left: 85%;
+    margin-top: -42rem;
+    margin-left: 80%;
     font-size: 20px;
 }
 
@@ -217,10 +245,9 @@ body {
     color: white;
     background: none;
     border: none;
-    padding: 10px;
     cursor: pointer;
     display: flex;
-    margin-top: -42.6rem;
+    margin-top: -42rem;
     margin-left: 65%;
     font-size: 20px;
 }
@@ -234,11 +261,93 @@ body {
     margin-left: 93%;
     z-index: 1;
     border: 5px solid rebeccapurple;
-    cursor: pointer;
 }
 
-.image{
-    width:100% ;
-    height:100% ;
-    border-radius: 15rem;
-}
+/* Début main */
+
+.telephone {
+    z-index: 1;
+    position: absolute;
+    width: 20rem;
+    height: 5rem;
+    margin-left: 37rem;
+    margin-top: 9rem;
+    background-color: rgb(212, 212, 212);
+    box-shadow: 10px 10px 5px rgb(137, 137, 137);
+  }
+
+  .telephone_text {
+    text-align: center;
+  }
+
+  .e-mail {
+    z-index: 1;
+    position: absolute;
+    width: 20rem;
+    height: 5rem;
+    margin-left: 25rem;
+    margin-top: 15rem;
+    background-color: rgb(212, 212, 212);
+    box-shadow: 10px 10px 5px rgb(137, 137, 137);
+  }
+  .e-mail_text{
+    text-align: center;
+  }
+
+ .adresse {
+    z-index: 1;
+    position: absolute;
+    width: 20rem;
+    height: 5rem;
+    right: 25rem;
+    margin-top: 15rem;
+    background-color: rgb(212, 212, 212);
+    box-shadow: 10px 10px 5px rgb(137, 137, 137);
+  }
+
+  .adresse_text{
+    text-align: center;
+  }
+
+  .set{
+    position: absolute;
+    top: -1.8rem;
+    left: -16rem;
+  }
+
+  .set2{
+    position: absolute;
+    top: -1.5rem;
+    left: -16rem;
+  }
+
+  .set3 {
+    position: absolute;
+    top: -6.8rem;
+    left: -18rem;
+  }
+
+  .set4{
+    position: absolute;
+    top: -2rem;
+    left: -16rem;
+  }
+
+   .maps {
+    position: absolute;
+    width: 100%;
+    height: 40%;
+    bottom: 0rem;
+    background-color: gray;
+    overflow: hidden;
+  }
+
+  .maps_pos {
+    width: 100%;
+    height: 100%;
+  }
+  
+
+
+/* Fin Main */
+

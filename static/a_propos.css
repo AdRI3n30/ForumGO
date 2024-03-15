@@ -58,7 +58,7 @@ body {
 
 .opaque{
     position: absolute;
-    height: 14vh;
+    height: 6rem;
     width: 100%;
     background: rgba(0, 0, 0, 0.474);
     z-index: 1;
@@ -67,14 +67,35 @@ body {
 .forum{
     color: white;
     position: absolute;
-    border: red px solid;
-    width: 7rem;
-    height: 3rem;
+    border: black 0.1px solid;
+    width: 6rem;
+    height: 2.2rem;
     z-index: 1;
     margin-top: -44rem;
     margin-left: 48%;
     text-decoration: none;
 }
+
+/* MenuButton underline */
+
+.ButtonMenu::before {
+        content: '';
+        position: absolute;
+        bottom: -0.2rem;
+        left: 0;
+        width: 0%;
+        height: 0.3rem;
+        background-color: rgb(212, 0, 255);
+        transition: all .5s;
+        border-radius: 0.5rem;
+}
+
+.ButtonMenu:hover::before{
+        width: 100%;
+}
+
+/* Fin underline */
+
 
 /* Début Menu bouton jeux */
 
@@ -83,7 +104,7 @@ body {
     border: red 5px solid;
     margin-top: -42rem;
     margin-left: 35%;
-    z-index: 1;
+    z-index: 5;
     color: white;
     background: none;
     border: none;
@@ -101,6 +122,7 @@ body {
 }
 
 .menu-buttons-jeux {
+    z-index: 2;
     position: relative; /* Change to relative */
     text-align: center;
     border: none;
@@ -116,7 +138,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: grey;
+    background: rgb(0, 0, 0);
     filter: blur(10px);
     z-index: -1; /* Place the pseudo-element behind the text */
 }
@@ -203,11 +225,10 @@ body {
     color: white;
     background: none;
     border: none;
-    padding: 10px;
     cursor: pointer;
     display: flex;
-    margin-top: -42.6rem;
-    margin-left: 85%;
+    margin-top: -42rem;
+    margin-left: 80%;
     font-size: 20px;
 }
 
@@ -217,10 +238,9 @@ body {
     color: white;
     background: none;
     border: none;
-    padding: 10px;
     cursor: pointer;
     display: flex;
-    margin-top: -42.6rem;
+    margin-top: -42rem;
     margin-left: 65%;
     font-size: 20px;
 }
@@ -234,11 +254,110 @@ body {
     margin-left: 93%;
     z-index: 1;
     border: 5px solid rebeccapurple;
-    cursor: pointer;
+}
+
+.description {
+    z-index: 1;
+    position: absolute;
+    width: 25rem;
+    height: 13rem;
+    margin-left: 10rem;
+    margin-top: 9.5rem;
+    background-color: rgb(212, 212, 212);
+    box-shadow: 10px 10px 5px rgb(137, 137, 137);
+}
+
+.desc_text {
+    text-align: center;
+    padding: 6px;
+
+}
+
+.desc_text1 {
+    font-size: 19px;
+}
+
+.vedette {
+    z-index: 1;
+    position: absolute;
+    width: 25rem;
+    height: 32rem;
+    margin-left: 60rem;
+    margin-top: 9.5rem;
+    background-color: rgb(212, 212, 212);
+    box-shadow: -10px 10px 5px rgb(137, 137, 137);
+    overflow: scroll;
+}
+
+.vedette_text {
+    text-align: center;
+    padding: 6px;
+}
+
+.talia {
+    position: absolute;
+    width: 15rem;
+    height: 15rem;
+    z-index: 1;
+    background-color: wheat;
+    border: 8px solid black;
+    margin-top: 27rem;
+    margin-left: 10rem;
+}
+
+.talia_img {
+    width: 100%;
+    height: 100%;
+}
+
+.nathalie {
+    position: absolute;
+    width: 15rem;
+    height: 15rem;
+    z-index: 1;
+    background-color: wheat;
+    border: 8px solid black;
+    margin-top: 27rem;
+    margin-left: 30rem;
+}
+
+.nathalie_img {
+    width: 100%;
+    height: 100%;
+}
+
+.contributeur {
+    z-index: 1;
+    position: absolute;
+    width: 22rem;
+    height: 2rem;
+    margin-left: 15rem;
+    margin-top: 24rem;
+    background-color: rgb(212, 212, 212);
+    box-shadow: 10px 10px 5px rgb(137, 137, 137);
+}
+
+.contributeur_text {
+    font-size: 25px;
+    text-align: center;
+}
+
+.orga {
+    margin-top: 5rem;
+    position: absolute;
+    width: 26rem;
+    height: 28rem;
+    margin-left: 35rem;
+}
+
+.orga_img{
+    width: 100%;
+    height: 100%;
 }
 
 .image{
     width:100% ;
     height:100% ;
     border-radius: 15rem;
+    cursor: pointer;
 }

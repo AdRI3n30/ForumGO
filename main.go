@@ -32,7 +32,6 @@ func main() {
 	http.HandleFunc("/login", loginHandler)
 	http.HandleFunc("/logout", logoutHandler)
 	http.HandleFunc("/profil", profilHandler)
-	http.HandleFunc("/create-topic", createTopicHandler)
 	http.HandleFunc("/topic", topicHandler)
 	http.HandleFunc("/add-comment", addCommentHandler)
 	http.HandleFunc("/thewitcher", thewitcher)
@@ -41,6 +40,9 @@ func main() {
 	http.HandleFunc("/editopic", getMyTopicsHandler)
 	http.HandleFunc("/delete-topic", deleteTopicHandler)
 	http.HandleFunc("/edit-topic", editTopicHandler)
+	http.HandleFunc("/zelda", zeldaHandler)
+	http.HandleFunc("/contact", contactHandler)
+	http.HandleFunc("/propos", proposHandler)
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	http.Handle("/Assets/", http.StripPrefix("/Assets/", http.FileServer(http.Dir("Assets"))))
 	http.Handle("/js/", http.StripPrefix("/js/", http.FileServer(http.Dir("js"))))
@@ -89,16 +91,23 @@ func forumHandler(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/login", http.StatusSeeOther)
 		return
 	}
-	// Récupérer tous les sujets du forum depuis la base de données
-	sujets, err := getSujetsFromDB()
-	if err != nil {
-		http.Error(w, "Erreur lors de la récupération des sujets du forum", http.StatusInternalServerError)
+	pseudo, ok := session.Values["pseudo"].(string)
+	if !ok {
+		http.Error(w, "Utilisateur non connecté", http.StatusUnauthorized)
 		return
 	}
 
+	// Récupérer les informations de l'utilisateur depuis la base de données
+	var utilisateur Utilisateur
+	err := db.QueryRow("SELECT image_profil FROM utilisateurs WHERE pseudo = ?", pseudo).Scan(&utilisateur.Image_profil)
+	if err != nil {
+		http.Error(w, "Erreur lors de la récupération des informations de l'utilisateur", http.StatusInternalServerError)
+		return
+	}
+	// Récupérer tous les sujets du forum depuis la base de données
 	// Afficher la liste des sujets sur la page HTML du forum
 	tmpl := template.Must(template.ParseFiles("forum.html"))
-	tmpl.Execute(w, sujets)
+	tmpl.Execute(w, utilisateur)
 }
 
 func registerHandler(w http.ResponseWriter, r *http.Request) {
@@ -236,67 +245,6 @@ func profilHandler(w http.ResponseWriter, r *http.Request) {
 	// Afficher les informations de l'utilisateur sur la page HTML du profil
 	tmpl := template.Must(template.ParseFiles("profil.html"))
 	tmpl.Execute(w, utilisateur)
-}
-
-func getSujetsFromDB() ([]Sujet, error) {
-	// Récupérer tous les sujets du forum depuis la base de données
-	rows, err := db.Query("SELECT id, titre, auteur FROM sujets")
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-
-	// Créer une slice pour stocker les sujets
-	var sujets []Sujet
-
-	// Parcourir les résultats de la requête et ajouter les sujets à la slice
-	for rows.Next() {
-		var sujet Sujet
-		err := rows.Scan(&sujet.ID, &sujet.Titre, &sujet.Auteur)
-		if err != nil {
-			return nil, err
-		}
-		sujets = append(sujets, sujet)
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-
-	return sujets, nil
-}
-
-func createTopicHandler(w http.ResponseWriter, r *http.Request) {
-	err := r.ParseForm()
-	if err != nil {
-		http.Error(w, "Error parsing form", http.StatusInternalServerError)
-		return
-	}
-
-	titre := r.Form.Get("title")
-	contenu := r.Form.Get("content")
-	nomDuJeux := r.FormValue("nomDuJeux")
-
-	// Récupérer le pseudo de l'utilisateur depuis la session
-	session, err := store.Get(r, sessionName)
-	if err != nil {
-		http.Error(w, "Erreur de session", http.StatusInternalServerError)
-		return
-	}
-	pseudo, ok := session.Values["pseudo"].(string)
-	if !ok {
-		http.Error(w, "Utilisateur non connecté", http.StatusUnauthorized)
-		return
-	}
-
-	// Insérer le nouveau sujet dans la base de données avec le pseudo de l'utilisateur comme auteur
-	_, err = db.Exec("INSERT INTO sujets (titre, contenu, auteur,nomDuJeux) VALUES (?, ?, ?, ?)", titre, contenu, pseudo, nomDuJeux)
-	if err != nil {
-		http.Error(w, "Error creating topic", http.StatusInternalServerError)
-		return
-	}
-
-	// Rediriger l'utilisateur vers la page d'accueil après création du sujet
-	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
 func topicHandler(w http.ResponseWriter, r *http.Request) {
@@ -560,4 +508,70 @@ func editTopicHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Rediriger l'utilisateur vers la page de ses sujets après la mise à jour
 	http.Redirect(w, r, "/editopic", http.StatusSeeOther)
+}
+
+func zeldaHandler(w http.ResponseWriter, r *http.Request) {
+	// Charger la page HTML
+	tmpl := template.Must(template.ParseFiles("Jeux/Zelda/Zelda BOTW.html"))
+
+	// Exécuter le modèle et écrire le résultat dans la réponse HTTP
+	err := tmpl.Execute(w, nil)
+	if err != nil {
+		http.Error(w, "Erreur lors de l'affichage de la page", http.StatusInternalServerError)
+		return
+	}
+}
+
+func contactHandler(w http.ResponseWriter, r *http.Request) {
+	// Récupérer les informations de l'utilisateur depuis la session
+	session, err := store.Get(r, sessionName)
+	if err != nil {
+		http.Error(w, "Erreur de session", http.StatusInternalServerError)
+		return
+	}
+
+	pseudo, ok := session.Values["pseudo"].(string)
+	if !ok {
+		http.Error(w, "Utilisateur non connecté", http.StatusUnauthorized)
+		return
+	}
+
+	// Récupérer les informations de l'utilisateur depuis la base de données
+	var utilisateur Utilisateur
+	err = db.QueryRow("SELECT image_profil FROM utilisateurs WHERE pseudo = ?", pseudo).Scan(&utilisateur.Image_profil)
+	if err != nil {
+		http.Error(w, "Erreur lors de la récupération des informations de l'utilisateur", http.StatusInternalServerError)
+		return
+	}
+
+	// Afficher les informations de l'utilisateur sur la page HTML du profil
+	tmpl := template.Must(template.ParseFiles("contact.html"))
+	tmpl.Execute(w, utilisateur)
+}
+
+func proposHandler(w http.ResponseWriter, r *http.Request) {
+	// Récupérer les informations de l'utilisateur depuis la session
+	session, err := store.Get(r, sessionName)
+	if err != nil {
+		http.Error(w, "Erreur de session", http.StatusInternalServerError)
+		return
+	}
+
+	pseudo, ok := session.Values["pseudo"].(string)
+	if !ok {
+		http.Error(w, "Utilisateur non connecté", http.StatusUnauthorized)
+		return
+	}
+
+	// Récupérer les informations de l'utilisateur depuis la base de données
+	var utilisateur Utilisateur
+	err = db.QueryRow("SELECT image_profil FROM utilisateurs WHERE pseudo = ?", pseudo).Scan(&utilisateur.Image_profil)
+	if err != nil {
+		http.Error(w, "Erreur lors de la récupération des informations de l'utilisateur", http.StatusInternalServerError)
+		return
+	}
+
+	// Afficher les informations de l'utilisateur sur la page HTML du profil
+	tmpl := template.Must(template.ParseFiles("a_propos.html"))
+	tmpl.Execute(w, utilisateur)
 }
