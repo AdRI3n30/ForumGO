@@ -540,7 +540,6 @@ func deleteTopicHandler(w http.ResponseWriter, r *http.Request) {
 
 func editTopicHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
-
 		http.Error(w, "Méthode non autorisée", http.StatusMethodNotAllowed)
 		return
 	}
