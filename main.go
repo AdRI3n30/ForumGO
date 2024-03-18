@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"encoding/gob"
 	"fmt"
 	"html/template"
 	"io"
@@ -13,6 +14,7 @@ import (
 	"github.com/google/uuid"
 
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/gorilla/securecookie"
 	"github.com/gorilla/sessions"
 )
 
@@ -43,6 +45,7 @@ func main() {
 	http.HandleFunc("/zelda", zeldaHandler)
 	http.HandleFunc("/contact", contactHandler)
 	http.HandleFunc("/propos", proposHandler)
+	http.HandleFunc("/likepost", likeSujetHandler)
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	http.Handle("/Assets/", http.StripPrefix("/Assets/", http.FileServer(http.Dir("Assets"))))
 	http.Handle("/js/", http.StripPrefix("/js/", http.FileServer(http.Dir("js"))))
@@ -70,6 +73,13 @@ type Message struct {
 	ID      int
 	Contenu string
 	Auteur  string
+}
+
+func init() {
+	// Enregistrer le type map[string]bool pour éviter l'erreur de gob
+	gob.Register(map[string]bool{})
+	// Utiliser SecureCookie pour une meilleure sécurité
+	store.Codecs = []securecookie.Codec{securecookie.New([]byte("your-secret-key"), nil)}
 }
 
 func initDB() {
@@ -574,4 +584,51 @@ func proposHandler(w http.ResponseWriter, r *http.Request) {
 	// Afficher les informations de l'utilisateur sur la page HTML du profil
 	tmpl := template.Must(template.ParseFiles("a_propos.html"))
 	tmpl.Execute(w, utilisateur)
+}
+
+func likeSujetHandler(w http.ResponseWriter, r *http.Request) {
+	// Récupérer l'identifiant du sujet à partir des paramètres de requête
+	sujetID := r.URL.Query().Get("id")
+
+	// Vérifier si l'utilisateur est authentifié
+	session, _ := store.Get(r, sessionName)
+	if _, ok := session.Values["authenticated"].(bool); !ok {
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
+		return
+	}
+
+	// Vérifier si l'utilisateur a déjà liké ce sujet
+	likedSujets := session.Values["likedSujets"]
+	if likedSujets == nil {
+		likedSujets = make(map[string]bool)
+	} else if likedSujetsMap, ok := likedSujets.(map[string]bool); ok {
+		if likedSujetsMap[sujetID] {
+			// L'utilisateur a déjà liké ce sujet
+			http.Error(w, "Vous avez déjà liké ce sujet", http.StatusBadRequest)
+			return
+		}
+	} else {
+		// La valeur de likedSujets n'est pas du bon type
+		http.Error(w, "Erreur lors de la récupération des sujets likés", http.StatusInternalServerError)
+		return
+	}
+
+	// Mettre à jour le nombre de likes dans la base de données
+	_, err := db.Exec("UPDATE sujets SET `like` = `like` + 1 WHERE id = ?", sujetID)
+	if err != nil {
+		http.Error(w, "Erreur lors de la mise à jour du nombre de likes", http.StatusInternalServerError)
+		return
+	}
+
+	// Enregistrer que l'utilisateur a liké ce sujet
+	likedSujetsMap := likedSujets.(map[string]bool)
+	likedSujetsMap[sujetID] = true
+	session.Values["likedSujets"] = likedSujetsMap
+	if err := session.Save(r, w); err != nil {
+		http.Error(w, "Erreur lors de l'enregistrement des sujets likés", http.StatusInternalServerError)
+		return
+	}
+
+	// Rediriger l'utilisateur vers la page du sujet
+	http.Redirect(w, r, "/topic?id="+sujetID, http.StatusSeeOther)
 }
