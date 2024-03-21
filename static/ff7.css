@@ -40,7 +40,6 @@ body {
     color: white;
     border: none;
     font-size: 16px;
-    cursor: pointer;
 }
 
 .trait {
@@ -281,4 +280,139 @@ body {
     z-index: 1;
     top: 14rem;
     left: 2.5rem;
+}
+
+
+
+.discussion {
+    position: absolute;
+    width: 40rem;
+    height: 36rem;
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.9);
+        filter: blur(10px);
+        border-radius: 1.5rem;
+        z-index: -1;
+    margin-top: 7rem;
+    margin-left: 28rem;
+}
+
+.text_discu {
+    position: absolute;
+    width: 39rem;
+    height: 35rem;
+    margin-top: 7rem;
+    margin-left: 28rem;
+    border-radius: 1.5rem;
+    padding: 10px;
+    
+}
+
+.discussion_text-1 {
+    position: relative  ;
+    width: 15rem;
+    height: auto;
+    z-index: 1;
+    z-index: 1;
+    border-radius: 1.5rem;
+    padding: 10px;
+    background-color: green;
+    margin-bottom: 1rem;
+}
+.discussion_text-1::before{
+    position: absolute;
+    content: '';
+    right: 97%;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-top: 1rem solid transparent;
+    border-right: 1rem solid green;
+    border-bottom: 1rem solid transparent;
+    rotate: -19.5deg;
+}
+
+.discussion_text-2 {
+    position: absolute  ;
+    width: 15rem;
+    height: auto;
+    z-index: 1;
+    margin-top: auto;
+    text-align: right;
+    border-radius: 1.5rem;
+    padding: 10px;
+    right: 1rem;
+    background-color: blue;
+
+}
+.discussion_text-2::before{
+    position: absolute;
+    content: '';
+    left: 97%;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-top: 1rem solid transparent;
+    border-left: 1rem solid blue;
+    border-bottom: 1rem solid transparent;
+    rotate: 19.5deg;
+}
+.discussion_titre {
+    width: 25rem;
+    font-size: 30px;
+    height: 5rem;
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0);
+        filter: blur(10px);
+        border-radius: 1.5rem;
+        z-index: -1;    
+    margin-top: 0.5rem;
+    margin-left: 35rem;
+}
+
+.titre {
+    width: 25rem;
+    font-size: 30px;
+    margin-top: 2rem;
+    margin-left: 42.5rem;   
+}
+
+
+.send_bar {
+    position: absolute;
+    border: 2px solid white;
+    padding: 10px;
+    width: 92%;
+    height: auto;
+    border-radius: 1.5REM;
+    bottom: 2rem;
+}
+
+.search-box {
+    width: 28rem;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 1rem;
+    outline: none;
+    font-size: 16px;
+}
+
+.search-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 1rem;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
 }

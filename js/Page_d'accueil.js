@@ -25,3 +25,38 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+document.addEventListener('DOMContentLoaded', function () {
+    var slider = document.querySelector('.slider');
+    var sliderWrapper = document.querySelector('.slider-wrapper');
+    var slideTexts = [
+        "Cloud                                                                                         Final Fantasy 7",
+        "Link                                                                                         Zelda Breath of The Wild",
+        "Geralt                                                                                         The Witcher 3",
+        "Ichiban                                                                                         Yakuza Infinite Wealth",
+    ];
+
+    var currentIndex = 0;
+    var intervalId;
+
+    updateSliderText();
+
+    function updateSliderText() {
+        sliderWrapper.style.setProperty('--slide-text', '"' + slideTexts[currentIndex] + '"');
+    }
+
+    function nextSlide() {
+        currentIndex = (currentIndex + 1) % slideTexts.length;
+        slider.scrollLeft = currentIndex * slider.clientWidth;
+        updateSliderText();
+    }
+
+    intervalId = setInterval(nextSlide, 4000);
+
+    slider.addEventListener('mouseenter', function () {
+        clearInterval(intervalId);
+    });
+
+    slider.addEventListener('mouseleave', function () {
+        intervalId = setInterval(nextSlide, 4000);
+    });
+});

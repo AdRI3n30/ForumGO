@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/Page_d'accueil.css">
@@ -8,7 +9,26 @@
 </head>
 <body>
     <div class="opaque"></div>
-
+    <section class="container2">
+        <div class="slider-wrapper">
+            <div class="slider">
+                <div class="slider-text">
+                    Texte initial
+                </div>
+                <img id="slide-1" src="../Assets/Cloud.png" />
+                <img id="slide-2" src="../Assets/Link.png" />
+                <img id="slide-3" src="../Assets/the-witcher-3-wild-hunt-geralt-of-rivia-the-witcher-2-assassins-of-kings-the-witcher-a6edd7e25626077c514c4826cc5d3f1c.png" />
+                <img class="ichiban" id="slide-4" src="../Assets/Ichiban.png" />
+            </div>
+            <div class="slider-nav">
+                <a href="#slide-1"></a>
+                <a href="#slide-2"></a>
+                <a href="#slide-3"></a>
+                <a href="#slide-4"></a>
+                
+            </div>
+        </div>
+    </section> 
     <div class="container">
         <div class="bubbles">
             <span style="--i:11;"></span>
@@ -54,41 +74,41 @@
         </div>
     </div>
 
-    <a class="forum" href="/">
+    <a class="forum ButtonMenu" href="/">
         <h1>Forum</h1>
     </a>
 
-    <button id="menuButtonJeux" class="menuButtonJeux">Jeux</button>
-<div id="menuJeux" class="menuJeux">
-    <div class="ButtonMenu">
-        <!-- Boutons de redirection -->
-        <div class="menu-buttons-jeux">
-            <button onclick="window.location.href='/zelda'">Zelda</button>
-            <button onclick="window.location.href='/ff7'">Final Fantasy 7</button>
-            <button onclick="window.location.href='/thewitcher'">The Witcher 3</button>
-        </div>
-    </div>
-</div>
-
-<button id="menuButtonTopics" class="menuButtonTopics">Topics</button>
-<div id="menuTopics" class="menuTopics">
-    <div class="ButtonMenu">
-        <!-- Boutons de redirection -->
-        <div class="menu-buttons-topics">
-            <div class="menu-buttons-topics-text">
+    <button id="menuButtonJeux" class="menuButtonJeux ButtonMenu">Jeux</button>
+    <div id="menuJeux" class="menuJeux">
+        <div class="ButtonMenu">
+            <!-- Boutons de redirection -->
+            <div class="menu-buttons-jeux">
                 <button onclick="window.location.href='/zelda'">Zelda</button>
                 <button onclick="window.location.href='/ff7'">Final Fantasy 7</button>
                 <button onclick="window.location.href='/thewitcher'">The Witcher 3</button>
             </div>
         </div>
     </div>
-</div>
 
-    <button class="menu-button a-propos" onclick="window.location.href='/propos'">
+    <button id="menuButtonTopics" class="menuButtonTopics ButtonMenu">Topics</button>
+    <div id="menuTopics" class="menuTopics">
+        <div class="ButtonMenu">
+            <!-- Boutons de redirection -->
+            <div class="menu-buttons-topics">
+                <div class="menu-buttons-topics-text">
+                    <button onclick="window.location.href='/zelda'">Zelda</button>
+                    <button onclick="window.location.href='/ff7'">Final Fantasy 7</button>
+                    <button onclick="window.location.href='/thewitcher'">The Witcher 3</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="menu-button a-propos ButtonMenu" onclick="window.location.href='/propos'">
         A propos
     </button>
 
-    <button class="menu-button contact" onclick="window.location.href='/contact'">
+    <button class="menu-button contact ButtonMenu" onclick="window.location.href='/contact'">
         Contact
     </button>  
 

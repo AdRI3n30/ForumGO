@@ -7,6 +7,7 @@
 body {
     min-height: 100vh;
     background: #0c192c;
+    overflow: hidden;
 }
 
 .container {
@@ -58,7 +59,7 @@ body {
 
 .opaque{
     position: absolute;
-    height: 14vh;
+    height: 6rem;
     width: 100%;
     background: rgba(0, 0, 0, 0.474);
     z-index: 1;
@@ -67,14 +68,35 @@ body {
 .forum{
     color: white;
     position: absolute;
-    border: red px solid;
-    width: 7rem;
-    height: 3rem;
+    border: black 0.1px solid;
+    width: 6rem;
+    height: 2.2rem;
     z-index: 1;
     margin-top: -44rem;
     margin-left: 48%;
     text-decoration: none;
 }
+
+/* MenuButton underline */
+
+.ButtonMenu::before {
+        content: '';
+        position: absolute;
+        bottom: -0.2rem;
+        left: 0;
+        width: 0%;
+        height: 0.3rem;
+        background-color: rgb(212, 0, 255);
+        transition: all .5s;
+        border-radius: 0.5rem;
+}
+
+.ButtonMenu:hover::before{
+        width: 100%;
+}
+
+/* Fin underline */
+
 
 /* Début Menu bouton jeux */
 
@@ -83,12 +105,12 @@ body {
     border: red 5px solid;
     margin-top: -42rem;
     margin-left: 35%;
-    z-index: 1;
+    z-index: 5;
     color: white;
     background: none;
     border: none;
     font-size: 20px;
-
+    cursor: pointer;
 }
 
 .menuJeux {
@@ -101,6 +123,7 @@ body {
 }
 
 .menu-buttons-jeux {
+    z-index: 2;
     position: relative; /* Change to relative */
     text-align: center;
     border: none;
@@ -116,7 +139,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: grey;
+    background: rgb(0, 0, 0);
     filter: blur(10px);
     z-index: -1; /* Place the pseudo-element behind the text */
 }
@@ -145,6 +168,7 @@ body {
     background: none;
     border: none;
     font-size: 20px;
+    cursor: pointer;
 
 }
 
@@ -203,11 +227,10 @@ body {
     color: white;
     background: none;
     border: none;
-    padding: 10px;
     cursor: pointer;
     display: flex;
-    margin-top: -42.6rem;
-    margin-left: 85%;
+    margin-top: -42rem;
+    margin-left: 80%;
     font-size: 20px;
 }
 
@@ -217,10 +240,9 @@ body {
     color: white;
     background: none;
     border: none;
-    padding: 10px;
     cursor: pointer;
     display: flex;
-    margin-top: -42.6rem;
+    margin-top: -42rem;
     margin-left: 65%;
     font-size: 20px;
 }
@@ -238,7 +260,127 @@ body {
 }
 
 .image{
-    width:100% ;
-    height:100% ;
-    border-radius: 15rem;
+    border-radius:5rem ;
+}
+.container2 {
+    z-index: 1;
+    position: absolute;
+    padding: 2rem;
+    height: 35rem;
+    width: 30rem;
+    right: -3rem;
+    top: 4.5rem;
+} 
+
+
+.slider-wrapper {
+  width: 100%; /* Ajustement de la largeur */
+  height: 100%; /* Ajustement de la hauteur */
+  overflow: hidden; /* Cacher le débordement */
+  margin: 0 auto;
+  position: relative; /* Modification de la position en absolue */
+  top: 57%;
+  right: 2%; /* Utilisation d'une valeur relative */
+  transform: translateY(-50%);
+}
+
+.slider {
+  display: flex;
+  width: 100%; /* Ajustement de la largeur pour contenir toutes les images */
+  height: 100%; /* Ajustement de la hauteur */
+  aspect-ratio: 16 / 9;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  box-shadow: 0 1.5rem 3rem -0.75rem hsla(0, 0%, 0%, 0.25);
+  border-radius: 0.5rem;
+  overflow: hidden; /* Cacher le débordement des images */
+}
+
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.slider::-webkit-scrollbar {
+    display: none;
+}
+
+.slider img {
+  flex: 1 0 auto;
+  width: 100%; /* Ajustement de la largeur */
+  height: auto; /* Ajustement de la hauteur */
+  overflow: hidden; /* Cacher le débordement */
+  object-fit: cover;
+  scroll-snap-align: start;
+  margin-right: 1rem; /* Ajout de marges à droite pour séparer les éléments */
+}
+
+.slider img:last-child {
+  margin-right: 30%; /* Aucune marge à droite pour le dernier élément */
+}
+
+.slider img:nth-child(3) {
+  margin-right: 1%; /* Aucune marge à droite pour le dernier élément */
+  margin-top: 8%;
+  overflow: hidden;
+}
+
+
+.slider-nav {
+  z-index: 5;
+    display: flex;
+    column-gap: 1rem;
+    position: absolute;
+    bottom: 1.25rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+}
+
+.ichiban {
+  max-width: 50%; /* Limite la largeur de l'image */
+  width: 100%; /* Permet à la hauteur de s'ajuster proportionnellement à la largeur */
+}
+
+.menu_bouton button:hover {
+  text-decoration: underline;
+}
+
+.slider-text {
+    color: wheat;
+}
+
+.slider-wrapper::before {
+    content: var(--slide-text, "Texte par défaut");
+    white-space: pre-wrap;
+    color: #ffffff;
+    position: absolute;
+    border-left: 10px solid rgb(0, 98, 255);
+    top: 60%;
+    left: 5%; /* Déplace le texte vers la droite */
+    width: 100%; /* Ajustement de la largeur */
+    height: 20%; /* Ajustement de la hauteur */
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 3;
+    display: flex;
+    font-size: 35px;
+    font-family: 'Jost', sans-serif; /* Utilisation de la police Jost comme première option, avec la famille de polices de secours sans-serif */
+}
+
+.slider-text {
+    font-size: 1.5rem; /* Ajustez la taille du texte selon vos besoins */
+    margin-left: auto; /* Alignez le texte sur la droite */
+    padding-right: 2rem; /* Ajoutez un peu d'espace à droite du texte */
+}
+
+.slider-nav a {
+  z-index: 2;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background-color: #fff;
+    opacity: 0.75;
+    transition: opacity ease 250ms;
+}
+
+.slider-nav a:hover {
+    opacity: 1;
 }

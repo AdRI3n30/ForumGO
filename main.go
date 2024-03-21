@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"encoding/gob"
+	"fmt"
 	"html/template"
 	"io"
 	"log"
@@ -43,6 +44,7 @@ func main() {
 	http.HandleFunc("/edit-topic", editTopicHandler)
 	http.HandleFunc("/zelda", zeldaHandler)
 	http.HandleFunc("/contact", contactHandler)
+	http.HandleFunc("/create-topic", createTopicHandler)
 	http.HandleFunc("/propos", proposHandler)
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	http.Handle("/Assets/", http.StripPrefix("/Assets/", http.FileServer(http.Dir("Assets"))))
@@ -260,7 +262,7 @@ func topicHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Récupérer les détails du sujet depuis la base de données
 	var sujet Sujet
-	err := db.QueryRow("SELECT titre, contenu, auteur, id FROM sujets WHERE id = ?", topicID).Scan(&sujet.Titre, &sujet.Contenu, &sujet.Auteur, &sujet.ID)
+	err := db.QueryRow("SELECT titre, contenu, auteur, id, nomDuJeux FROM sujets WHERE id = ?", topicID).Scan(&sujet.Titre, &sujet.Contenu, &sujet.Auteur, &sujet.ID, &sujet.nomDuJeux)
 	if err != nil {
 		http.Error(w, "Erreur lors de la récupération des détails du sujet", http.StatusInternalServerError)
 		return
@@ -274,13 +276,30 @@ func topicHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Afficher les détails du sujet et les commentaires associés sur la page HTML du sujet
-	tmpl := template.Must(template.ParseFiles("topic.html"))
 	data := struct {
 		Sujet        Sujet
 		Commentaires []Message
 	}{
 		Sujet:        sujet,
 		Commentaires: commentaires,
+	}
+	// Charger le template correspondant en fonction du nom du jeu
+	var templateFile string
+	switch sujet.nomDuJeux {
+	case "Final Fantasy":
+		templateFile = "Jeux/Final-Fantasy/ff7_topics.html"
+	case "Autre jeu":
+		templateFile = "Jeux/Final-Fantasy/ff7_topics.html"
+	default:
+		templateFile = "Jeux/Final-Fantasy/ff7_topics.html"
+	}
+
+	// Charger le template HTML
+	tmpl, err := template.ParseFiles(templateFile)
+	if err != nil {
+		fmt.Println(err)
+		http.Error(w, "Erreur lors du chargement du template", http.StatusInternalServerError)
+		return
 	}
 	err = tmpl.Execute(w, data)
 	if err != nil {
@@ -578,4 +597,47 @@ func proposHandler(w http.ResponseWriter, r *http.Request) {
 	// Afficher les informations de l'utilisateur sur la page HTML du profil
 	tmpl := template.Must(template.ParseFiles("a_propos.html"))
 	tmpl.Execute(w, utilisateur)
+}
+
+func createTopicHandler(w http.ResponseWriter, r *http.Request) {
+	// Vérifier si la méthode HTTP est POST
+	if r.Method != http.MethodPost {
+		http.Error(w, "Méthode non autorisée", http.StatusMethodNotAllowed)
+		return
+	}
+
+	// Vérifier si l'utilisateur est authentifié
+	session, _ := store.Get(r, sessionName)
+	if _, ok := session.Values["authenticated"].(bool); !ok {
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
+		return
+	}
+
+	// Récupérer les données du formulaire
+	err := r.ParseForm()
+	if err != nil {
+		http.Error(w, "Erreur lors de la lecture des données du formulaire", http.StatusInternalServerError)
+		return
+	}
+	pseudo := session.Values["pseudo"].(string)
+	// Récupérer le titre et le contenu du sujet à partir du formulaire
+	titre := r.Form.Get("title")
+	contenu := r.Form.Get("content")
+	nomDuJeux := r.Form.Get("nomDuJeux")
+
+	// Vérifier si les champs sont vides
+	if titre == "" || contenu == "" {
+		http.Error(w, "Veuillez remplir tous les champs du formulaire", http.StatusBadRequest)
+		return
+	}
+
+	// Insérer le nouveau sujet dans la base de données
+	_, err = db.Exec("INSERT INTO sujets (titre, contenu, nomDuJeux, auteur) VALUES (?, ?, ?, ?)", titre, contenu, nomDuJeux, pseudo)
+	if err != nil {
+		http.Error(w, "Erreur lors de la création du sujet", http.StatusInternalServerError)
+		return
+	}
+
+	// Rediriger l'utilisateur vers la page du forum après la création du sujet
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
