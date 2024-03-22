@@ -35,16 +35,6 @@
         </div>
 
         <div class="text_discu">
-            <h2>Commentaires</h2>
-            <div class="discussion_text-1">
-                <h1>Pseudo</h1>
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam amet provident asperiores rem quo deleniti corporis eum doloremque. Blanditiis, quos! Corrupti, sapiente. Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta expedita, consectetur ea consequuntur molestiae vero!</p>
-            </div>
-
-            <div class="discussion_text-2">
-                <h1>Pseudo</h1>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Id nisi necessitatibus, quibusdam asperiores porro pariatur. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo, in?</p>
-            </div>
             <div class="send_bar">
                 <form action="/add-comment" method="POST" >
                     <input type="hidden" name="sujet_id" value="{{.Sujet.ID}}">
@@ -55,7 +45,9 @@
             </div>
             <ul>
                 {{range .Commentaires}}
-                <li>{{ .Auteur }} : {{ .Contenu }}</li>
+                <div class="{{if .Auteur}}message-user{{else}}message-other{{end}}">
+                    {{ .Auteur }} : {{ .Contenu }}
+                </div>
                 {{end}}
             </ul>
 

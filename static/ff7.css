@@ -310,6 +310,7 @@ body {
     margin-left: 28rem;
     border-radius: 1.5rem;
     padding: 10px;
+    overflow-y: auto; 
     
 }
 
@@ -415,4 +416,27 @@ body {
     color: white;
     cursor: pointer;
     font-size: 16px;
+}
+
+.message-user {
+    background-color: #007bff; /* Bleu */
+    color: white;
+    border-radius: 20px;
+    max-width: 70%; /* Largeur maximale */
+    padding: 10px 15px; /* Espacement à l'intérieur du message */
+    margin: 10px 0; /* Espacement entre les messages */
+    float: right; /* Alignement à droite */
+    clear: both; /* Pour éviter que les messages suivants ne se chevauchent */
+}
+
+/* Style des autres messages */
+.message-other {
+    background-color: #28a745; /* Vert */
+    color: white;
+    border-radius: 20px;
+    max-width: 70%; /* Largeur maximale */
+    padding: 10px 15px; /* Espacement à l'intérieur du message */
+    margin: 10px 0; /* Espacement entre les messages */
+    float: left; /* Alignement à gauche */
+    clear: both; /* Pour éviter que les messages suivants ne se chevauchent */
 }
