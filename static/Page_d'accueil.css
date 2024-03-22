@@ -68,7 +68,6 @@ body {
 .forum{
     color: white;
     position: absolute;
-    border: black 0.1px solid;
     width: 6rem;
     height: 2.2rem;
     z-index: 1;
@@ -338,6 +337,7 @@ body {
 .ichiban {
   max-width: 50%; /* Limite la largeur de l'image */
   width: 100%; /* Permet à la hauteur de s'ajuster proportionnellement à la largeur */
+  filter: drop-shadow(10px 7px 10px rgb(237, 215, 215));
 }
 
 .menu_bouton button:hover {
@@ -383,4 +383,15 @@ body {
 
 .slider-nav a:hover {
     opacity: 1;
+}
+
+
+.perso{
+    filter: drop-shadow(10px 7px 10px rgb(82, 82, 82));
+}
+.perso2{
+    filter: drop-shadow(10px 7px 10px rgb(221, 211, 25));
+}
+.perso3{
+    filter: drop-shadow(10px 7px 10px rgb(208, 23, 23));
 }

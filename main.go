@@ -236,6 +236,10 @@ func profilHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Erreur de session", http.StatusInternalServerError)
 		return
 	}
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
+		return
+	}
 
 	pseudo, ok := session.Values["pseudo"].(string)
 	if !ok {
@@ -368,6 +372,11 @@ func addCommentHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func thewitcher(w http.ResponseWriter, r *http.Request) {
+	session, _ := store.Get(r, sessionName)
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
+		return
+	}
 	// Récupérer les sujets associés à "The Witcher"
 	sujets, err := getSujetsByJeuFromDB("The witcher")
 	if err != nil {
@@ -410,6 +419,11 @@ func getSujetsByJeuFromDB(jeu string) ([]Sujet, error) {
 }
 
 func finalFantasy7Handler(w http.ResponseWriter, r *http.Request) {
+	session, _ := store.Get(r, sessionName)
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
+		return
+	}
 	// Récupérer les sujets associés à "The Witcher"
 	sujets, err := getSujetsByJeuFromDB("Final Fantasy")
 	if err != nil {
@@ -534,6 +548,11 @@ func editTopicHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func zeldaHandler(w http.ResponseWriter, r *http.Request) {
+	session, _ := store.Get(r, sessionName)
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
+		return
+	}
 	// Charger la page HTML
 	tmpl := template.Must(template.ParseFiles("Jeux/Zelda/Zelda BOTW.html"))
 
@@ -546,6 +565,11 @@ func zeldaHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func contactHandler(w http.ResponseWriter, r *http.Request) {
+	session, _ := store.Get(r, sessionName)
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
+		return
+	}
 	// Récupérer les informations de l'utilisateur depuis la session
 	session, err := store.Get(r, sessionName)
 	if err != nil {
@@ -573,6 +597,11 @@ func contactHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func proposHandler(w http.ResponseWriter, r *http.Request) {
+	session, _ := store.Get(r, sessionName)
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
+		return
+	}
 	// Récupérer les informations de l'utilisateur depuis la session
 	session, err := store.Get(r, sessionName)
 	if err != nil {

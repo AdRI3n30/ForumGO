@@ -10,6 +10,10 @@ body {
     height: 100vh;
 }
 
+.Titre{
+    text-shadow: 0 0 5px #00ffff, 0 0 5px #00ffff;
+}
+
 .container {
     width: 50%;
     background-color: #000;
@@ -81,3 +85,20 @@ select option {
 h1, h2, h3, h4, h5, h6 {
     color: #fff;
 }
+
+.lien-bouton {
+    margin-left: 5rem;
+    display: inline-block;
+    padding: 9px 20px;
+    background-color: aqua;
+    color: black;
+    text-decoration: none; 
+    border-radius: 5px; 
+    transition: background-color 0.3s ease; 
+}
+
+.lien-bouton:hover {
+    background-color: #00b3b3;
+
+}
+

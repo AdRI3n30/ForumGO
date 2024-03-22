@@ -9,6 +9,7 @@
 <body>
     <!-- Formulaire de création de sujet -->
     <form action="/create-topic" method="POST">
+        <h1 class="Titre">Création d'un post</h1>
         <label for="title">Titre du sujet :</label><br>
         <input type="text" id="title" name="title" required><br>
         <label for="content">Contenu :</label><br>
@@ -18,8 +19,10 @@
         <option value="Zelda">Zelda</option>
         <option value="Final Fantasy">Final Fantasy</option>
         <option value="The witcher">The witcher</option>
+        <option value="The witcher">Yakuza</option>
         </select><br>
         <button type="submit">Créer le sujet</button>
+        <a href="/" class="lien-bouton">Aller à l'accueil</a>
     </form>
 </body>
 </html>

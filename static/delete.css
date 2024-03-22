@@ -1,0 +1,188 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: rgb(62, 62, 62);
+    overflow: hidden;
+}
+
+
+
+.Post {
+    position: absolute;
+    height: 30rem; /* Hauteur fixe de la div Post */
+    width: 40rem;
+    border-radius: 1.5rem;
+    border: aqua 5px solid;
+    left: 26rem;
+    top: 10rem;
+    background: rgb(21, 21, 21);
+    padding: 10px;
+    box-shadow: 10px 10px 5px rgb(0, 90, 90);
+    overflow-y: auto; /* Ajoute une barre de défilement verticale si nécessaire */
+    overflow-x: hidden; /* Cache la barre de défilement horizontale */
+    scrollbar-color: aqua rgba(0, 0, 0, 0.2); /* Couleur de la poignée et du fond de la barre de défilement */
+    scrollbar-width: thin; /* Largeur de la barre de défilement */
+}
+
+.Post::-webkit-scrollbar {
+    width: 10px; /* Largeur de la barre de défilement */
+}
+
+.Post::-webkit-scrollbar-thumb {
+    background-color: aqua; /* Couleur de la poignée de la barre de défilement */
+    border-radius: 5px; /* Bordure arrondie de la poignée */
+}
+
+.Post::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.2); /* Couleur de fond de la barre de défilement */
+}
+
+.div_post {
+    position: relative;
+    height: 5rem;
+    width: 39rem;
+    background: black;
+    border: 3px rgb(0, 255, 255) solid;
+    border-radius: 1.5rem;
+    overflow-y: auto;
+    margin-top: 1rem;
+}
+
+.titre_post {
+    position: absolute;
+    margin-top: 0.5rem;
+    width: auto;
+    height: 2rem;
+    color: white;
+    font-size: 25px;
+    margin-left: 1rem;
+}
+
+.button_del {
+    position: absolute;
+    border: 4px solid red;
+    background-color: white;
+    height: 3rem;
+    width: 5rem;
+    border-radius: 1rem;
+    margin-top: 1rem;
+    margin-left: 33rem;
+    cursor: pointer;
+    
+}
+
+.button_del:hover {
+    background: red;
+    color: white;
+    transition: 0.5s ease-in-out;
+}
+
+a {
+    color: black; /* Couleur du texte */
+    text-decoration: none; /* Supprime le soulignement */
+    font-size: 1.3rem;
+}
+
+a:hover{
+    color: white;
+}
+.Pseudo {
+    position: absolute;
+    height: 2rem;
+    width: auto;
+    background: black;
+    border: aqua 5px solid;
+    left: 44%;
+    top: 5%;
+    border-radius: 1rem;
+    padding: 8px;
+    box-shadow: 10px 10px 5px rgb(0, 90, 90);
+}
+
+.Pseudo_text {
+    color: white;
+    text-align: left;
+}
+
+.retour {
+    position: absolute;
+    width: 15rem;
+    height: 3rem;
+    background:#6225E6;
+    top: 5rem;
+    border: none;
+    border-radius: 0 1.5rem 1.5rem 0;
+    border: black 3px solid;
+    border-left: 0;
+    z-index: 1;
+    font-size: 18px;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.retour::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 100%;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(18, 187, 187);
+    border-radius: 0 1.5rem 1.5rem 0;
+    transition: right 0.3s ease;
+    z-index: -1;
+}
+
+.retour:hover::before {
+    right: 0;
+}
+
+.retour:hover::before,
+.retour:focus::before {
+    transform: scaleX(1);
+} 
+
+.retour2 {
+    position: absolute;
+    width: 15rem;
+    height: 3rem;
+    background:#6225E6;
+    top: 10rem;
+    border: none;
+    border-radius: 0 1.5rem 1.5rem 0;
+    border: black 3px solid;
+    border-left: 0;
+    z-index: 1;
+    font-size: 18px;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.retour2::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 100%;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(18, 187, 187);
+    border-radius: 0 1.5rem 1.5rem 0;
+    transition: right 0.3s ease;
+    z-index: -1;
+}
+
+.retour2:hover::before {
+    right: 0;
+}
+
+.retour2:hover::before,
+.retour2:focus::before {
+    transform: scaleX(1);
+} 
