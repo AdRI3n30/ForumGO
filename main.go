@@ -70,9 +70,10 @@ type Sujet struct {
 }
 
 type Message struct {
-	ID      int
-	Contenu string
-	Auteur  string
+	ID       int
+	Contenu  string
+	Auteur   string
+	CSSClass string
 }
 
 func init() {
@@ -261,6 +262,10 @@ func profilHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func topicHandler(w http.ResponseWriter, r *http.Request) {
+	// Récupérer l'utilisateur connecté à partir de la session
+	session, _ := store.Get(r, sessionName)
+	user, _ := session.Values["pseudo"].(string) // Supposons que le pseudo de l'utilisateur soit stocké dans la session
+
 	// Récupérer l'identifiant du sujet à partir des paramètres de requête
 	topicID := r.URL.Query().Get("id")
 
@@ -277,6 +282,15 @@ func topicHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Error(w, "Erreur lors de la récupération des commentaires", http.StatusInternalServerError)
 		return
+	}
+
+	// Parcourir les commentaires et déterminer le style CSS en fonction de l'auteur
+	for i := range commentaires {
+		if commentaires[i].Auteur == user {
+			commentaires[i].CSSClass = "message-user"
+		} else {
+			commentaires[i].CSSClass = "message-other"
+		}
 	}
 
 	// Afficher les détails du sujet et les commentaires associés sur la page HTML du sujet

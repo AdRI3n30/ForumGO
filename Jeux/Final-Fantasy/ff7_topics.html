@@ -45,9 +45,9 @@
             </div>
             <ul>
                 {{range .Commentaires}}
-                <div class="{{if .Auteur}}message-user{{else}}message-other{{end}}">
-                    {{ .Auteur }} : {{ .Contenu }}
-                </div>
+                    <div class="{{.CSSClass}}">
+                        {{.Auteur}} : {{.Contenu}}
+                    </div>
                 {{end}}
             </ul>
 
