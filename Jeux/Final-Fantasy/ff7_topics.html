@@ -36,21 +36,24 @@
 
         <div class="text_discu">
             <div class="send_bar">
-                <form action="/add-comment" method="POST" >
+                <form action="/add-comment" method="POST">
                     <input type="hidden" name="sujet_id" value="{{.Sujet.ID}}">
                     <label for="contenu">Votre commentaire :</label><br>
                     <input id="contenu" name="contenu" rows="4" cols="50" class="search-box" required><br>
                     <button type="submit" class="search-button">Ajouter le commentaire</button>
                 </form>
             </div>
-            <ul>
-                {{range .Commentaires}}
-                    <div class="{{.CSSClass}}">
-                        {{.Auteur}} : {{.Contenu}}
-                    </div>
-                {{end}}
-            </ul>
-
+            <div class="comment-container">
+                <div class="comment-frame">
+                    <ul class="comment-list">
+                        {{range .Commentaires}}
+                            <div class="{{.CSSClass}}">
+                                {{.Auteur}} : {{.Contenu}}
+                            </div>
+                        {{end}}
+                    </ul>
+                </div>
+            </div>
         </div>
         
 

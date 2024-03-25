@@ -40,6 +40,7 @@ body {
     color: white;
     border: none;
     font-size: 16px;
+    cursor: pointer;
 }
 
 .trait {
@@ -439,4 +440,11 @@ body {
     margin: 10px 0; /* Espacement entre les messages */
     float: left; /* Alignement à gauche */
     clear: both; /* Pour éviter que les messages suivants ne se chevauchent */
+}
+
+.comment-frame {
+    border: 2px solid transparent; /* Définir le style de cadre */
+    padding: 10px; /* Ajouter un espace intérieur au cadre */
+    max-height: 24rem; /* Limiter la hauteur du cadre pour activer le défilement si nécessaire */
+    overflow-y: auto; /* Ajouter une barre de défilement verticale si nécessaire */
 }
