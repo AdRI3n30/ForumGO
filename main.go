@@ -293,36 +293,51 @@ func topicHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	// Déclaration des variables pour les sujets
+	var topics []Sujet
+	var templateFile string
+
+	// Charger le template correspondant en fonction du nom du jeu et récupérer les sujets associés
+	switch sujet.nomDuJeux {
+	case "Final Fantasy":
+		templateFile = "Jeux/Final-Fantasy/ff7_topics.html"
+		topics, err = getSujetsByJeuFromDB("Final Fantasy")
+	case "The witcher":
+		templateFile = "Jeux/Thewitcher/Thewitcher3_topics.html"
+		topics, err = getSujetsByJeuFromDB("The witcher")
+	case "Zelda":
+		templateFile = "Jeux/Zelda/Zelda BOTW_topics.html"
+		topics, err = getSujetsByJeuFromDB("Zelda")
+	default:
+		templateFile = "Jeux/Final-Fantasy/ff7_topics.html"
+	}
+
+	// Gérer les erreurs de récupération des sujets
+	if err != nil {
+		http.Error(w, "Erreur lors de la récupération des sujets", http.StatusInternalServerError)
+		return
+	}
+
 	// Afficher les détails du sujet et les commentaires associés sur la page HTML du sujet
 	data := struct {
 		Sujet        Sujet
 		Commentaires []Message
+		Topics       []Sujet
 	}{
 		Sujet:        sujet,
 		Commentaires: commentaires,
-	}
-	// Charger le template correspondant en fonction du nom du jeu
-	var templateFile string
-	switch sujet.nomDuJeux {
-	case "Final Fantasy":
-		templateFile = "Jeux/Final-Fantasy/ff7_topics.html"
-	case "The witcher":
-		templateFile = "Jeux/Thewitcher/Thewitcher3_topics.html"
-	case "Zelda":
-		templateFile = "Jeux/Zelda/Zelda BOTW_topics.html"
-	default:
-		templateFile = "Jeux/Final-Fantasy/ff7_topics.html"
+		Topics:       topics,
 	}
 
 	// Charger le template HTML
 	tmpl, err := template.ParseFiles(templateFile)
 	if err != nil {
-		fmt.Println(err)
 		http.Error(w, "Erreur lors du chargement du template", http.StatusInternalServerError)
 		return
 	}
 	err = tmpl.Execute(w, data)
 	if err != nil {
+		fmt.Println(err)
 		http.Error(w, "Erreur lors de l'affichage de la page du sujet", http.StatusInternalServerError)
 		return
 	}

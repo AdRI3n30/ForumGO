@@ -258,7 +258,7 @@ body {
         border-radius: 1.5rem;
         z-index: -1;
     margin-top: 7rem;
-    margin-left: 38rem;
+    margin-left: 50rem;
 }
 
 .text_discu {
@@ -266,7 +266,7 @@ body {
     width: 39rem;
     height: 35rem;
     margin-top: 7rem;
-    margin-left: 38rem;
+    margin-left: 50rem;
     border-radius: 1.5rem;
     padding: 10px;
     
@@ -335,8 +335,18 @@ body {
         border-radius: 1.5rem;
         z-index: -1;
     margin-top: 0.5rem;
-    margin-left: 45rem;
+    margin-left: 58rem;
 }
+
+.titre {
+    position: absolute;
+    width: 24.5rem;
+    height: 4.5rem;
+    margin-top: 1.3rem;
+    margin-left: 58rem;
+    text-align: center;
+}
+
 
 .send_bar {
     position: absolute;

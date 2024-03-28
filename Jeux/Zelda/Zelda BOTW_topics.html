@@ -11,11 +11,9 @@
             <div class="menu_bouton">
                 <button class="menu-button Topics" onclick="toggleMenu('topicsMenu')">Topics</button>
                 <div class="menu-deroulant" id="topicsMenu">
-                    <!-- Ajoutez ici vos éléments de menu pour Topics -->
-                    <a href="#">Topic 1</a>
-                    <a href="#">Topic 2</a>
-                    <a href="#">Topic 3</a>
-                    <!-- Ajoutez autant d'éléments de menu que nécessaire -->
+                    {{range .Topics}}
+                        <li><a href="/topic?id={{.ID}}">{{.Titre}}</a> par {{.Auteur}}</li>
+                     {{end}}
                 </div>
                 <button class="menu-button Jeux" onclick="toggleMenu('gamesMenu')">Jeux</button>
                 <div class="menu-deroulant" id="gamesMenu">

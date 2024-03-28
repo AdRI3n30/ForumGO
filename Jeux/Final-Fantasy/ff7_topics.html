@@ -22,6 +22,9 @@
         <div class="hidden-menu topics-menu" id="topicsMenu"></div>
         <div class="topics-text" id="topicsText">
             <h1>Topics - Final Fantasy 7</h1>
+            {{range .Topics}}
+                <li><a href="/topic?id={{.ID}}">{{.Titre}}</a> par {{.Auteur}}</li>
+            {{end}}
         </div>
         <div></div>
         <div class="Jeux-text" id="JeuxText">
@@ -75,7 +78,6 @@
             <button onclick="window.location.href='/ff7'">Final Fantasy 7</button>
             <button onclick="window.location.href='/thewitcher'">The Witcher 3</button>
             <button onclick="window.location.href='../TheWitcher3/TheWitcher3.html'">Yakuza: Infinite Wealth</button>
-            <button onclick="window.location.href='../TheWitcher3/TheWitcher3.html'">The Last Of Us 2</button>
         </div>
     </div>
 
