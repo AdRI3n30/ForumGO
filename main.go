@@ -306,8 +306,10 @@ func topicHandler(w http.ResponseWriter, r *http.Request) {
 	switch sujet.nomDuJeux {
 	case "Final Fantasy":
 		templateFile = "Jeux/Final-Fantasy/ff7_topics.html"
-	case "Autre jeu":
-		templateFile = "Jeux/Final-Fantasy/ff7_topics.html"
+	case "The witcher":
+		templateFile = "Jeux/Thewitcher/Thewitcher3_topics.html"
+	case "Zelda":
+		templateFile = "Jeux/Zelda/Zelda BOTW_topics.html"
 	default:
 		templateFile = "Jeux/Final-Fantasy/ff7_topics.html"
 	}
@@ -567,13 +569,18 @@ func zeldaHandler(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/login", http.StatusSeeOther)
 		return
 	}
+
+	sujets, err := getSujetsByJeuFromDB("Zelda")
+	if err != nil {
+		http.Error(w, "Erreur lors de la récupération des sujets", http.StatusInternalServerError)
+		return
+	}
 	// Charger la page HTML
 	tmpl := template.Must(template.ParseFiles("Jeux/Zelda/Zelda BOTW.html"))
 
-	// Exécuter le modèle et écrire le résultat dans la réponse HTTP
-	err := tmpl.Execute(w, nil)
+	err = tmpl.Execute(w, sujets)
 	if err != nil {
-		http.Error(w, "Erreur lors de l'affichage de la page", http.StatusInternalServerError)
+		http.Error(w, "Erreur lors de l'exécution du modèle HTML", http.StatusInternalServerError)
 		return
 	}
 }

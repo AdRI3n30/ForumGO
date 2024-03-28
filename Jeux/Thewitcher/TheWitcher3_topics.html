@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/TheWitcher3.css">
+    <title>Forum</title>
+</head>
+<body>
+    <div class="rectangle_menu">
+        <a class="forum-button" href="/">
+            <h1>The Forum</h1>
+        </a>
+        
+        <img class="logo_witcher" src="../../Assets/Logo witcher.png" alt="logo witcher">
+
+
+        <button class="menu-button topics-button" onclick="toggleMenu('topicsMenu', 'topics-triangle', 'topicsText')">
+            Topics
+            <div class="triangle topics-triangle"></div>
+        </button>
+        <div class="hidden-menu topics-menu" id="topicsMenu"></div>
+        <div class="topics-text" id="topicsText">
+            <h1>Topics - The Witcher 3</h1>
+        </div>
+
+
+        <button class="menu-button jeux-button" onclick="toggleMenu('JeuxMenu', 'jeux-triangle', 'JeuxText')">
+            Jeux
+            <div class="triangle jeux-triangle"></div>
+        </button>
+        <div class="hidden-menu jeux-menu" id="JeuxMenu">
+            <div class="jeux-menu-buttons">
+                <button onclick="window.location.href='/Zelda'">Zelda</button>
+                <button onclick="window.location.href='/ff7'">Final Fantasy 7</button>
+                <button onclick="window.location.href='/TheWitcher3'">The Witcher 3</button>
+                <button onclick="window.location.href='../TheWitcher3/TheWitcher3.html'">Yakuza: Infinite Wealth</button>
+                <button onclick="window.location.href='../TheWitcher3/TheWitcher3.html'">The Last Of Us 2</button>
+            </div>
+        </div>
+        
+        <div class="Jeux-text" id="JeuxText">
+            <h1>Jeux</h1>
+        </div>
+        
+
+        <button class="menu-button a-propos" onclick="window.location.href='../générale/a_propos.html'">
+            A propos
+        </button>
+        
+        <button class="menu-button contact" onclick="window.location.href='../générale/contact.html'">
+            Contact
+        </button>        
+
+    </div>
+    <div class="discussion_titre"><h1 class="titre">{{ .Sujet.Titre }}</h1></div>
+
+
+    
+
+    <div class="discussion">
+
+    </div>
+
+    <div class="text_discu">
+        <div class="send_bar">
+            <form action="/add-comment" method="POST">
+                <input type="hidden" name="sujet_id" value="{{.Sujet.ID}}">
+                <label for="contenu">Votre commentaire :</label><br>
+                <input id="contenu" name="contenu" rows="4" cols="50" class="search-box" required><br>
+                <button type="submit" class="search-button">Ajouter le commentaire</button>
+            </form>
+        </div>
+        <div class="comment-container">
+            <div class="comment-frame">
+                <ul class="comment-list">
+                    {{range .Commentaires}}
+                        <div class="{{.CSSClass}}">
+                            {{.Auteur}} : {{.Contenu}}
+                        </div>
+                    {{end}}
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+
+    <script src="/js/TheWitcher3.js"></script>
+</body>
+</html>

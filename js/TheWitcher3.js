@@ -92,3 +92,21 @@ function hideSubMenu(subMenuId, subTextId) {
 
 // Appel pour masquer tous les menus au chargement de la page
 hideAllMenusExcept(null);
+
+
+
+// Fonction pour ajouter une fonctionnalité de défilement
+function addScrollFunctionality() {
+    var commentContainer = document.querySelector('.comment-container');
+    var commentList = document.querySelector('.comment-list');
+    var maxCommentHeight = 300; // Hauteur maximale des commentaires avant d'activer le défilement
+
+    if (commentList.offsetHeight > maxCommentHeight) {
+        commentContainer.style.overflowY = 'scroll';
+        commentContainer.style.maxHeight = maxCommentHeight + 'px';
+    }
+}
+
+// Appel de la fonction d'ajout de la fonctionnalité de défilement lors du chargement de la page
+window.addEventListener('load', addScrollFunctionality);
+

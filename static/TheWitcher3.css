@@ -241,3 +241,158 @@ body {
     margin-left: 6rem;
     font-size: 30px;
 }
+
+
+.discussion {
+    position: absolute;
+    width: 40rem;
+    height: 36rem;
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.9);
+        filter: blur(10px);
+        border-radius: 1.5rem;
+        z-index: -1;
+    margin-top: 7rem;
+    margin-left: 38rem;
+}
+
+.text_discu {
+    position: absolute;
+    width: 39rem;
+    height: 35rem;
+    margin-top: 7rem;
+    margin-left: 38rem;
+    border-radius: 1.5rem;
+    padding: 10px;
+    
+}
+
+.discussion_text-1 {
+    position: relative  ;
+    width: 15rem;
+    height: auto;
+    z-index: 1;
+    z-index: 1;
+    border-radius: 1.5rem;
+    padding: 10px;
+    background-color: green;
+    margin-bottom: 1rem;
+}
+.discussion_text-1::before{
+    position: absolute;
+    content: '';
+    right: 97%;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-top: 1rem solid transparent;
+    border-right: 1rem solid green;
+    border-bottom: 1rem solid transparent;
+    rotate: -19.5deg;
+}
+
+.discussion_text-2 {
+    position: absolute  ;
+    width: 15rem;
+    height: auto;
+    z-index: 1;
+    margin-top: auto;
+    text-align: right;
+    border-radius: 1.5rem;
+    padding: 10px;
+    right: 1rem;
+    background-color: blue;
+
+}
+.discussion_text-2::before{
+    position: absolute;
+    content: '';
+    left: 97%;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-top: 1rem solid transparent;
+    border-left: 1rem solid blue;
+    border-bottom: 1rem solid transparent;
+    rotate: 19.5deg;
+}
+.discussion_titre {
+    width: 25rem;
+    height: 5rem;
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0);
+        filter: blur(10px);
+        border-radius: 1.5rem;
+        z-index: -1;
+    margin-top: 0.5rem;
+    margin-left: 45rem;
+}
+
+.send_bar {
+    position: absolute;
+    border: 2px solid white;
+    padding: 10px;
+    width: 92%;
+    height: auto;
+    border-radius: 1.5REM;
+    bottom: 2rem;
+}
+
+.search-box {
+    width: 28rem;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 1rem;
+    outline: none;
+    font-size: 16px;
+}
+
+.search-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 1rem;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.message-user {
+    background-color: #007bff; /* Bleu */
+    color: white;
+    border-radius: 20px;
+    max-width: 70%; /* Largeur maximale */
+    padding: 10px 15px; /* Espacement à l'intérieur du message */
+    margin: 10px 0; /* Espacement entre les messages */
+    float: right; /* Alignement à droite */
+    clear: both; /* Pour éviter que les messages suivants ne se chevauchent */
+}
+
+/* Style des autres messages */
+.message-other {
+    background-color: #28a745; /* Vert */
+    color: white;
+    border-radius: 20px;
+    max-width: 70%; /* Largeur maximale */
+    padding: 10px 15px; /* Espacement à l'intérieur du message */
+    margin: 10px 0; /* Espacement entre les messages */
+    float: left; /* Alignement à gauche */
+    clear: both; /* Pour éviter que les messages suivants ne se chevauchent */
+}
+
+.comment-frame {
+    border: 2px solid transparent; /* Définir le style de cadre */
+    padding: 10px; /* Ajouter un espace intérieur au cadre */
+    max-height: 24rem; /* Limiter la hauteur du cadre pour activer le défilement si nécessaire */
+    overflow-y: auto; /* Ajouter une barre de défilement verticale si nécessaire */
+}
