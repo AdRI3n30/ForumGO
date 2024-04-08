@@ -1,0 +1,47 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="/static/Yakuza.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Jost:ital@0;1&display=swap" rel="stylesheet">    
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <img class="menu_gauche" src="../Assets/Fond yakuza.png" alt="Yakuza gauche">
+        <button onclick="window.location.href='/'" class="forum">Forum</button> 
+        <img class="logo1" src="../Assets/Icone 1 YAKUZA.png">
+        <button class="topics" onclick="toggleMenu('topicsMenu')">Topics</button> 
+        <img class="logo2" src="../Assets/Icone 2 YAKUZA.png">
+        <button class="jeux" onclick="toggleMenu('gamesMenu')">Jeux</button> 
+        <img class="logo3" src="../Assets/Icone 3 YAKUZA.png">
+        <button onclick="window.location.href='../générale/contact.html'" class="contact">Contact</button> 
+        <img class="logo4" src="../Assets/Icone 4 YAKUZA.png">
+        <button onclick="window.location.href='../générale/a_propos.html'" class="a_propos">A propos</button> 
+
+        <div class="sujet_topic"></div>
+        <h1 class="titre_topic">Topic</h1>
+        <div class="opacité"></div>
+        <div class="rectangle1"></div>
+        <div class="ligne"></div>
+
+        <div class="menu-deroulant" id="topicsMenu">
+            <!-- Ajoutez ici vos éléments de menu pour Topics -->
+            {{range .}}
+                <li><a href="/topic?id={{.ID}}">{{.Titre}}</a> par {{.Auteur}}</li>
+             {{end}}
+            <!-- Ajoutez autant d'éléments de menu que nécessaire -->
+        </div>
+
+        <div class="menu-deroulant" id="gamesMenu">
+            <!-- Menu déroulant existant pour le bouton Jeux -->
+            <a href="#" onclick="window.location.href='/zelda'">Zelda Botw</a>
+            <a href="#" onclick="window.location.href='/ff7'">Final Fantasy 7</a>
+            <a href="#" onclick="window.location.href='/thewitcher'">The Witcher 3</a>
+            <a href="#" onclick="window.location.href='/yakuza'">Yakuza Infinite Wealth</a>
+        </div>
+
+        <script src="/js/Yakuza.js"></script>
+    </body>
+    </html>

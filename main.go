@@ -46,6 +46,7 @@ func main() {
 	http.HandleFunc("/contact", contactHandler)
 	http.HandleFunc("/create-topic", createTopicHandler)
 	http.HandleFunc("/propos", proposHandler)
+	http.HandleFunc("/yakuza", yakuzaHandler)
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	http.Handle("/Assets/", http.StripPrefix("/Assets/", http.FileServer(http.Dir("Assets"))))
 	http.Handle("/js/", http.StripPrefix("/js/", http.FileServer(http.Dir("js"))))
@@ -308,6 +309,9 @@ func topicHandler(w http.ResponseWriter, r *http.Request) {
 	case "Zelda":
 		templateFile = "Jeux/Zelda/Zelda BOTW_topics.html"
 		topics, err = getSujetsByJeuFromDB("Zelda")
+	case "Yakuza":
+		templateFile = "Jeux/Yakuza/Yakuza.html"
+		topics, err = getSujetsByJeuFromDB("Yakuza")
 	default:
 		templateFile = "Jeux/Final-Fantasy/ff7_topics.html"
 	}
@@ -705,4 +709,26 @@ func createTopicHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Rediriger l'utilisateur vers la page du forum après la création du sujet
 	http.Redirect(w, r, "/", http.StatusSeeOther)
+}
+
+func yakuzaHandler(w http.ResponseWriter, r *http.Request) {
+	session, _ := store.Get(r, sessionName)
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
+		return
+	}
+
+	sujets, err := getSujetsByJeuFromDB("Yakuza")
+	if err != nil {
+		http.Error(w, "Erreur lors de la récupération des sujets", http.StatusInternalServerError)
+		return
+	}
+	// Charger la page HTML
+	tmpl := template.Must(template.ParseFiles("Jeux/Yakuza/Yakuza.html"))
+
+	err = tmpl.Execute(w, sujets)
+	if err != nil {
+		http.Error(w, "Erreur lors de l'exécution du modèle HTML", http.StatusInternalServerError)
+		return
+	}
 }
