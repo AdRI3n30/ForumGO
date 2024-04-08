@@ -350,6 +350,7 @@ width: 92%;
 height: auto;
 border-radius: 1.5rem;
 bottom: 2rem;
+z-index: 1;
 }
 
 .search-box {

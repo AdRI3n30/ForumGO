@@ -72,8 +72,7 @@
         <div class="send_bar">
             <form action="/add-comment" method="POST">
                 <input type="hidden" name="sujet_id" value="{{.Sujet.ID}}">
-                <label for="contenu">Votre commentaire :</label><br>
-                <input id="contenu" name="contenu" rows="4" cols="50" class="search-box" required><br>
+                <input id="contenu" name="contenu" rows="4" cols="50" class="search-box" placeholder="Votre commentaire :" required><br>
                 <button type="submit" class="search-button">Ajouter le commentaire</button>
             </form>
         </div>
