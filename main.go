@@ -310,7 +310,7 @@ func topicHandler(w http.ResponseWriter, r *http.Request) {
 		templateFile = "Jeux/Zelda/Zelda BOTW_topics.html"
 		topics, err = getSujetsByJeuFromDB("Zelda")
 	case "Yakuza":
-		templateFile = "Jeux/Yakuza/Yakuza.html"
+		templateFile = "Jeux/Yakuza/Yakuza_topics.html"
 		topics, err = getSujetsByJeuFromDB("Yakuza")
 	default:
 		templateFile = "Jeux/Final-Fantasy/ff7_topics.html"

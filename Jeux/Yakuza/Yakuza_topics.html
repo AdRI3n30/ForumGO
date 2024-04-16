@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="Yakuza.css">
+    <link rel="stylesheet" href="../../static/Yakuza.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jost:ital@0;1&display=swap" rel="stylesheet">    
@@ -28,27 +28,30 @@
 
     <div class="menu-deroulant" id="topicsMenu">
         <!-- Ajoutez ici vos éléments de menu pour Topics -->
-        {{range .}}
-            <li><a href="/topic?id={{.ID}}">{{.Titre}}</a> par {{.Auteur}}</li>
-        {{end}}
+        <a href="#">Topic 1</a>
+        <a href="#">Topic 2</a>
+        <a href="#">Topic 3</a>
         <!-- Ajoutez autant d'éléments de menu que nécessaire -->
     </div>
 
         <div class="cadre">
             <div class="cadre-titre">
-                <p>titre topic</p>
+                <p>{{ .Sujet.Titre }}</p>
             </div>
-                <div class="trait">
+            <div class="trait">
                 <div id="messages-container">
                     {{range .Commentaires}}
-                        <div class="{{.CSSClass}}">
-                            {{.Auteur}} : {{.Contenu}}
-                        </div>
+                     <div class="{{.CSSClass}}"> {{.Auteur}} : {{.Contenu}} </div>
                     {{end}}
-                    <div class="send_bar">
-                        <input type="text" class="search-box" placeholder="Rechercher...">
-                        <button class="search-button">Envoyé..</button>
-                    </div>
+                <div class="send_bar">
+                    <form action="/add-comment" method="POST">
+                        <input type="hidden" name="sujet_id" value="{{.Sujet.ID}}">
+                        <input id="contenu" name="contenu" rows="4" cols="50" class="search-box" placeholder="Votre commentaire :" required><br>
+                        <button type="submit" class="search-button">Ajouter le commentaire</button>
+                    </form>
+                </div>
+                </div>    
+            </div>
         </div>
     </div>
     <div class="menu-deroulant" id="gamesMenu">

@@ -288,7 +288,7 @@ body, html {
 .cadre {
     position: absolute;
     width: 40rem;
-    height: 36rem;
+    height: 35rem;
     background-color: #000000;
     top: 10rem;
     margin-left: 25rem;
@@ -299,56 +299,12 @@ body, html {
 #messages-container {
     position: relative;
     width: 40rem;
-    height: 36rem;
+    height: 34rem;
     overflow: hidden; /* Activation du défilement vertical si nécessaire */
     left: -2.5rem;
 
 }
 
-.bulle1 {
-    position: relative;
-    width: 24rem;
-    top: 2rem;
-    left: 2rem;
-    min-width: 20%; /* Taille minimale de la bulle */
-    max-width: 70%; /* Taille maximale de la bulle */
-    height: auto;
-    border-radius: 20px;
-    padding: 10px;
-    margin-bottom: 20px; /* Espacement entre les bulles */
-    overflow: hidden; /* Empêche le dépassement du contenu */
-    word-wrap: break-word; /* Permet le retour à la ligne dans le texte long */
-    background-color: #E5AF05;
-}
-
-.bulle1 p {
-    font-size: 2rem;
-    color: #000000;
-    text-align: left;
-    margin: 0; /* Supprime la marge par défaut */
-}
-
-.bulle2 {
-    margin-bottom: 2rem;
-    position: relative;
-    width: auto;
-    min-width: 20%; /* Taille minimale de la bulle */
-    max-width: 70%; /* Taille maximale de la bulle */
-    height: auto;
-    border-radius: 20px;
-    background-color: #0077ff;
-    top:2rem;
-    left: 9rem;
-    padding: 10px;
-    overflow: hidden; /* Empêche le dépassement du contenu */
-    word-wrap: break-word; /* Permet le retour à la ligne dans le texte long */
-    margin-bottom: 20px; /* Ajoute une marge basse pour la séparation */
-}
-
-.bulle2 p {
-    font-size: 2rem;
-    margin: 0; /* Supprime la marge par défaut */;
-}
 
 .send_bar {
     position: absolute;
@@ -381,6 +337,11 @@ body, html {
 }
 
 
+.auteur{
+    margin-left: 2rem;
+}
+
+
 .message-user {
     background-color: #007bff; /* Bleu */
     color: white;
@@ -390,10 +351,10 @@ body, html {
     margin: 10px 0; /* Espacement entre les messages */
     float: right; /* Alignement à droite */
     clear: both; /* Pour éviter que les messages suivants ne se chevauchent */
-}
-
-/* Style des autres messages */
-.message-other {
+  }
+  
+  /* Style des autres messages */
+  .message-other {
     background-color: #28a745; /* Vert */
     color: white;
     border-radius: 20px;
@@ -402,11 +363,5 @@ body, html {
     margin: 10px 0; /* Espacement entre les messages */
     float: left; /* Alignement à gauche */
     clear: both; /* Pour éviter que les messages suivants ne se chevauchent */
-}
-
-.comment-frame {
-    border: 2px solid transparent; /* Définir le style de cadre */
-    padding: 10px; /* Ajouter un espace intérieur au cadre */
-    max-height: 24rem; /* Limiter la hauteur du cadre pour activer le défilement si nécessaire */
-    overflow-y: auto; /* Ajouter une barre de défilement verticale si nécessaire */
-}
+  }
+  

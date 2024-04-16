@@ -102,16 +102,15 @@ body {
 .menuButtonJeux{
     position: absolute;
     border: red 5px solid;
-    margin-top: -42rem;
-    margin-left: 35%;
+    margin-top: -44rem;
+    margin-left: 10%;
     z-index: 5;
     color: white;
     background: none;
     border: none;
     font-size: 20px;
-    cursor: pointer;
-}
 
+}
 .menuJeux {
     display: none;
     position: absolute;
@@ -127,7 +126,7 @@ body {
     text-align: center;
     border: none;
     margin-top: -37rem;
-    margin-left: 29rem;
+    margin-left: 5.5rem;
     width: 10rem;
 }
 
@@ -155,70 +154,6 @@ body {
 
 /* Fin Menu Jeux */
 
-/* Début Menu Topics */
-
-.menuButtonTopics{
-    position: absolute;
-    border: red 5px solid;
-    margin-top: -42rem;
-    margin-left: 15%;
-    z-index: 1;
-    color: white;
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-
-}
-
-.menuTopics {
-    display: none;
-    position: absolute;
-}
-
-.menuTopics.show {
-    display: block;
-}
-
-.menu-buttons-topics {
-    position: relative; /* Change to relative */
-    text-align: center;
-    border: none;
-    margin-top: -37rem;
-    margin-left: 11rem;
-    width: 10rem;
-}
-
-.menu-buttons-topics::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: grey;
-    filter: blur(10px);
-    z-index: -1; /* Place the pseudo-element behind the text */
-}
-
-.menu-buttons-topics-text {
-    position: relative; /* Add relative positioning to contain z-index */
-    z-index: 1; /* Bring the text to the front */
-    /* You can add styles to the text here if needed */
-}
-
-.menuTopics button {
-    display: inline-block;
-    border: none;
-    background: none;
-    color: white;
-    margin: 8px;
-    padding: 10px;
-    cursor: pointer;
-}
-
-/* Fin Menu Jeux */
-
 
 .a-propos {
     z-index: 1;
@@ -228,8 +163,8 @@ body {
     border: none;
     cursor: pointer;
     display: flex;
-    margin-top: -42rem;
-    margin-left: 80%;
+    margin-top: -44rem;
+    margin-left: 68%;
     font-size: 20px;
 }
 
@@ -241,8 +176,8 @@ body {
     border: none;
     cursor: pointer;
     display: flex;
-    margin-top: -42rem;
-    margin-left: 65%;
+    margin-top: -44rem;
+    margin-left: 30%;
     font-size: 20px;
 }
 
@@ -251,8 +186,8 @@ body {
     width: 5rem;
     height: 5rem;
     border-radius: 5rem;
-    margin-top: -43.5rem;
-    margin-left: 93%;
+    margin-top: -46rem;
+    margin-left: 90%;
     z-index: 1;
     border: 5px solid rebeccapurple;
     cursor: pointer;
